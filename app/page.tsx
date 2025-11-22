@@ -29,7 +29,7 @@ export default function Home() {
         onAccessDashboard={() => router.push('/dashboard')}
       />
       <LegacyMonitor />
-      <TrustStats />
+      {/* <TrustStats /> */}
       <FeatureCards />
       <HowItWorks />
       <WhyChoose />

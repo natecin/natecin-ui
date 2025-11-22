@@ -9,7 +9,7 @@ export function FeatureCards() {
     <section className="px-6 py-20">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-8">
-          <Card glass={false} tiltEffect={true} className="p-8 hover:border-soul-red/50 transition-all duration-300">
+          <Card tiltEffect={true} className="p-8 hover:border-soul-red/50 transition-all duration-300">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="w-20 h-20 rounded-full bg-soul-red/10 flex items-center justify-center">
                 <Vault className="w-10 h-10 text-soul-red" />
@@ -41,7 +41,7 @@ export function FeatureCards() {
             </div>
           </Card>
 
-          <Card glass={false} tiltEffect={true} className="p-8 hover:border-soul-red/50 transition-all duration-300">
+          <Card tiltEffect={true} className="p-8 hover:border-soul-red/50 transition-all duration-300">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="w-20 h-20 rounded-full bg-pulse-red/10 flex items-center justify-center icon-pulse">
                 <HandshakeIcon className="w-10 h-10 text-pulse-red" />

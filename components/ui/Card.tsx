@@ -46,7 +46,7 @@ export function Card({ children, className = '', glass = true, tiltEffect = fals
   return (
     <div
       ref={cardRef}
-      className={`${baseStyles} ${glassStyles} ${tiltStyles} ${className} ${isHovered ? 'card-shimmer' : ''}`}
+      className={`${baseStyles} ${glassStyles} ${tiltStyles} ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
