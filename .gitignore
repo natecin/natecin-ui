@@ -32,3 +32,9 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+README_LISKS.md
+/.idea
+/.vscode
+.claude
+.factory
