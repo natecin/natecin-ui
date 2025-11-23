@@ -12,7 +12,6 @@ export function NetworkSwitcher() {
   const switchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Reset switch flag when disconnected
     if (!isConnected) {
       setHasSwitched(false);
       if (switchTimeoutRef.current) {
@@ -22,18 +21,14 @@ export function NetworkSwitcher() {
   }, [isConnected]);
 
   useEffect(() => {
-    // Auto-switch to Lisk Sepolia when wallet connects
     if (isConnected && chainId && chainId !== liskSepolia.id && !hasSwitched && !isPending) {
-      // Set flag immediately to prevent multiple triggers
       setHasSwitched(true);
 
-      // Delay to prevent race condition with wallet connection
       switchTimeoutRef.current = setTimeout(() => {
         switchChain(
           { chainId: liskSepolia.id },
           {
             onError: () => {
-              // Reset flag on error so user can try again
               setHasSwitched(false);
             },
           }
@@ -48,7 +43,7 @@ export function NetworkSwitcher() {
     };
   }, [isConnected, chainId, hasSwitched, isPending]);
 
-  // Show warning banner if on wrong network (only if auto-switch is pending or failed)
+  
   if (isConnected && chainId !== liskSepolia.id && !isPending) {
     return (
       <div className="fixed top-20 left-0 right-0 z-40 bg-soul-red/90 backdrop-blur-sm border-b border-white/20">
