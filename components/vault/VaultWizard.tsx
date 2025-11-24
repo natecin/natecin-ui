@@ -85,7 +85,7 @@ export function VaultWizard({ isOpen, onClose }: VaultWizardProps) {
 
               {/* Header - Fixed */}
               <div className="p-8 pb-4 shrink-0">
-                <h2 className="text-3xl font-heading text-ghost-white mb-2">
+                <h2 className="text-3xl font-family-heading text-ghost-white mb-2">
                   Create Your Vault
                 </h2>
                 <div className="flex items-center gap-2 mt-4">
@@ -114,7 +114,7 @@ export function VaultWizard({ isOpen, onClose }: VaultWizardProps) {
                   >
                     {!isConnected ? (
                       <div className="text-center py-12 space-y-4">
-                        <h3 className="text-xl font-heading text-ghost-white">
+                        <h3 className="text-xl font-family-heading text-ghost-white">
                           Connect Your Wallet
                         </h3>
                         <p className="text-silver-dust mb-6">
@@ -170,14 +170,14 @@ export function VaultWizard({ isOpen, onClose }: VaultWizardProps) {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-xl font-heading text-ghost-white">
+                    <h3 className="text-xl font-family-heading text-ghost-white">
                       Review & Confirm
                     </h3>
 
                     <Card glass={false} className="space-y-4">
                       <div>
                         <div className="text-sm text-silver-dust">Heirs</div>
-                        <div className="text-ghost-white font-heading">
+                        <div className="text-ghost-white font-family-heading">
                           {heirs.length} beneficiar
                           {heirs.length === 1 ? "y" : "ies"}
                         </div>
@@ -186,7 +186,7 @@ export function VaultWizard({ isOpen, onClose }: VaultWizardProps) {
                         <div className="text-sm text-silver-dust">
                           Inactivity Period
                         </div>
-                        <div className="text-ghost-white font-heading">
+                        <div className="text-ghost-white font-family-heading">
                           {inactivityPeriod} days
                         </div>
                       </div>
@@ -194,7 +194,7 @@ export function VaultWizard({ isOpen, onClose }: VaultWizardProps) {
                         <div className="text-sm text-silver-dust">
                           Initial Deposit
                         </div>
-                        <div className="text-ghost-white font-heading">
+                        <div className="text-ghost-white font-family-heading">
                           Ready to deposit
                         </div>
                       </div>

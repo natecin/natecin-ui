@@ -139,7 +139,7 @@ export function HowItWorks() {
   return (
     <section className="px-6 py-24">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-heading text-ghost-white text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-family-heading text-ghost-white text-center mb-16 ">
           How It Works
         </h2>
 
@@ -187,14 +187,14 @@ export function HowItWorks() {
                   </div>
 
                   <div
-                    className={`text-sm font-heading mb-2 transition-colors duration-300 ${
+                    className={`text-sm font-family-heading mb-2 transition-colors duration-300 ${
                       isHovered ? 'text-soul-red' : 'text-silver-dust'
                     }`}
                   >
                     {step.number}
                   </div>
 
-                  <h3 className="text-xl font-heading text-ghost-white mb-3">
+                  <h3 className="text-xl font-family-heading text-ghost-white mb-3">
                     {step.title}
                   </h3>
 

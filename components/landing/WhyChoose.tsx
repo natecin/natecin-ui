@@ -26,7 +26,7 @@ export function WhyChoose() {
   return (
     <section className="px-6 py-24">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-heading text-ghost-white text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-family-heading text-ghost-white text-center mb-16">
           Why Choose Natecin?
         </h2>
         
@@ -45,7 +45,7 @@ export function WhyChoose() {
                   <Icon className="w-8 h-8 text-soul-red" />
                 </div>
                 
-                <h3 className="text-xl font-heading text-ghost-white mb-4">
+                <h3 className="text-xl font-family-heading text-ghost-white mb-4">
                   {feature.title}
                 </h3>
                 

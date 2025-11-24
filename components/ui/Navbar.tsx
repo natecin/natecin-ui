@@ -117,7 +117,7 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
         {/* Logo with heartbeat pulse */}
         <div className="flex items-center gap-3 group">
           <HeartPulse className="w-8 h-8 text-soul-red animate-heartbeat group-hover:text-pulse-red transition-colors" />
-          <span className="text-2xl font-heading text-ghost-white group-hover:text-soul-red transition-colors duration-300">
+          <span className="text-2xl font-family-heading text-ghost-white group-hover:text-soul-red transition-colors duration-300">
             NATECIN
           </span>
 

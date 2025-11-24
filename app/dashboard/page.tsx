@@ -57,7 +57,7 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-heading text-ghost-white mb-2">
+            <h1 className="text-4xl font-family-heading text-ghost-white mb-2">
               Your Vaults
             </h1>
             <p className="text-silver-dust">
@@ -76,7 +76,7 @@ export default function Dashboard() {
               <Wallet className="w-5 h-5 text-soul-red" />
               <span className="text-sm text-silver-dust">Total Value Locked</span>
             </div>
-            <div className="text-3xl font-heading text-ghost-white">
+            <div className="text-3xl font-family-heading text-ghost-white">
               {formatCurrency(totalValue)}
             </div>
           </Card>
@@ -86,7 +86,7 @@ export default function Dashboard() {
               <TrendingUp className="w-5 h-5 text-green-500" />
               <span className="text-sm text-silver-dust">Active Vaults</span>
             </div>
-            <div className="text-3xl font-heading text-ghost-white">
+            <div className="text-3xl font-family-heading text-ghost-white">
               {mockVaults.filter(v => v.status === 'active').length}
             </div>
           </Card>
@@ -96,7 +96,7 @@ export default function Dashboard() {
               <Heart className="w-5 h-5 text-pulse-red" />
               <span className="text-sm text-silver-dust">Total Beneficiaries</span>
             </div>
-            <div className="text-3xl font-heading text-ghost-white">
+            <div className="text-3xl font-family-heading text-ghost-white">
               {mockVaults.reduce((sum, v) => sum + v.heirs, 0)}
             </div>
           </Card>
@@ -114,7 +114,7 @@ export default function Dashboard() {
                       )}
                       <span className={`relative inline-flex rounded-full h-3 w-3 ${statusDots[vault.status]}`}></span>
                     </span>
-                    <h3 className="text-2xl font-heading text-ghost-white">
+                    <h3 className="text-2xl font-family-heading text-ghost-white">
                       {vault.name}
                     </h3>
                     <span className={`text-sm ${statusColors[vault.status]} capitalize`}>
@@ -125,19 +125,19 @@ export default function Dashboard() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                       <div className="text-sm text-silver-dust">Value</div>
-                      <div className="text-lg font-heading text-ghost-white">
+                      <div className="text-lg font-family-heading text-ghost-white">
                         {formatCurrency(vault.totalValue)}
                       </div>
                     </div>
                     <div>
                       <div className="text-sm text-silver-dust">Heirs</div>
-                      <div className="text-lg font-heading text-ghost-white">
+                      <div className="text-lg font-family-heading text-ghost-white">
                         {vault.heirs}
                       </div>
                     </div>
                     <div>
                       <div className="text-sm text-silver-dust">Days Remaining</div>
-                      <div className={`text-lg font-heading ${
+                      <div className={`text-lg font-family-heading ${
                         vault.daysRemaining < 30 ? 'text-yellow-500' : 'text-ghost-white'
                       }`}>
                         {vault.daysRemaining}
@@ -145,7 +145,7 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <div className="text-sm text-silver-dust">Last Check-in</div>
-                      <div className="text-lg font-heading text-ghost-white">
+                      <div className="text-lg font-family-heading text-ghost-white">
                         {vault.lastCheckIn}
                       </div>
                     </div>

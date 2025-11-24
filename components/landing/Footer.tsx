@@ -17,7 +17,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-3">
             <HeartPulse className="w-8 h-8 text-soul-red" />
-            <span className="text-2xl font-heading text-ghost-white">NATECIN</span>
+            <span className="text-2xl font-family-heading text-ghost-white">NATECIN</span>
           </div>
 
           <nav className="flex flex-wrap items-center justify-center gap-8">

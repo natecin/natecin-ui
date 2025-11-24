@@ -14,7 +14,7 @@ export function FeatureCards() {
               <div className="w-20 h-20 rounded-full bg-soul-red/10 flex items-center justify-center">
                 <Vault className="w-10 h-10 text-soul-red" />
               </div>
-              <h3 className="text-2xl font-heading text-ghost-white">
+              <h3 className="text-2xl font-family-heading text-ghost-white">
                 For Vault Owners
               </h3>
               <p className="text-silver-dust text-lg leading-relaxed">
@@ -46,7 +46,7 @@ export function FeatureCards() {
               <div className="w-20 h-20 rounded-full bg-pulse-red/10 flex items-center justify-center icon-pulse">
                 <HandshakeIcon className="w-10 h-10 text-pulse-red" />
               </div>
-              <h3 className="text-2xl font-heading text-ghost-white">
+              <h3 className="text-2xl font-family-heading text-ghost-white">
                 For Heirs
               </h3>
               <p className="text-silver-dust text-lg leading-relaxed">

@@ -153,7 +153,7 @@ export function LegacyMonitor() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pulse-red opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-pulse-red"></span>
                 </span>
-                <h2 className="font-heading text-ghost-white text-xl">
+                <h2 className="font-family-heading text-ghost-white text-xl">
                   Live Protocol Preview
                 </h2>
                 <span className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
@@ -162,7 +162,7 @@ export function LegacyMonitor() {
               </div>
               <div className="text-right">
                 <div className="text-sm text-silver-dust">Total Value Locked</div>
-                <div className="text-2xl font-heading text-ghost-white">
+                <div className="text-2xl font-family-heading text-ghost-white">
                   {formatCurrency(totalValue)}
                 </div>
               </div>
@@ -170,7 +170,7 @@ export function LegacyMonitor() {
 
             <div className="grid md:grid-cols-[70%_30%] gap-6">
               <div className="space-y-3 relative">
-                <h3 className="font-heading text-ghost-white text-lg">
+                <h3 className="font-family-heading text-ghost-white text-lg">
                   Activity Monitor: Detecting Life Signs
                 </h3>
                 <div className="h-48 bg-charcoal rounded border border-white/5 relative overflow-hidden">
@@ -181,7 +181,7 @@ export function LegacyMonitor() {
               </div>
 
               <div className="space-y-3 relative">
-                <h3 className="font-heading text-ghost-white text-lg">
+                <h3 className="font-family-heading text-ghost-white text-lg">
                   Smart Contract Auto-Distribution
                 </h3>
                 <div className="h-48 relative overflow-hidden rounded border border-white/5">
@@ -197,7 +197,7 @@ export function LegacyMonitor() {
                 <div className="flex-1 w-full">
                   <div className="flex items-center justify-between text-sm text-silver-dust mb-2">
                     <span>Auto-execution timer</span>
-                    <span className="font-heading text-ghost-white">
+                    <span className="font-family-heading text-ghost-white">
                       {daysRemaining} Days remaining
                     </span>
                   </div>
@@ -223,7 +223,7 @@ export function LegacyMonitor() {
                   {/* Holographic status badges */}
                   <div className="flex items-center gap-2 px-4 py-2 rounded bg-emerald-500/10 border border-emerald-500/30 group hover:border-emerald-500/60 transition-all">
                     <ShieldCheck className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
-                    <span className="font-heading text-sm text-emerald-400 group-hover:text-emerald-300 transition-colors">
+                    <span className="font-family-heading text-sm text-emerald-400 group-hover:text-emerald-300 transition-colors">
                       Audited Contract
                     </span>
                     {/* Badge pulse glow */}
@@ -232,7 +232,7 @@ export function LegacyMonitor() {
 
                   <div className="flex items-center gap-2 px-4 py-2 rounded bg-blue-500/10 border border-blue-500/30 group hover:border-blue-500/60 transition-all">
                     <Lock className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
-                    <span className="font-heading text-sm text-blue-400 group-hover:text-blue-300 transition-colors">
+                    <span className="font-family-heading text-sm text-blue-400 group-hover:text-blue-300 transition-colors">
                       Non-Custodial
                     </span>
                     {/* Badge pulse glow */}

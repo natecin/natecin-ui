@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme inline {
   --color-onyx: #0C0C0F;
   --color-charcoal: #1A1A1F;
   --color-soul-red: #C11A29;
@@ -22,11 +22,6 @@ body {
   font-family: var(--font-family-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family-heading);
-  color: var(--color-ghost-white);
 }
 
 /* Animated Gradient Mesh Background */
@@ -358,5 +353,11 @@ h1, h2, h3, h4, h5, h6 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-family-heading text-ghost-white
   }
 }

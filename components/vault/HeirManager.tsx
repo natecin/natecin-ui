@@ -43,7 +43,7 @@ export function HeirManager({ heirs, onChange }: HeirManagerProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-heading text-ghost-white">Heir Management</h3>
+        <h3 className="text-xl font-family-heading text-ghost-white">Heir Management</h3>
         <Button
           variant="secondary"
           onClick={addHeir}
@@ -61,7 +61,7 @@ export function HeirManager({ heirs, onChange }: HeirManagerProps) {
             className="glass p-4 rounded space-y-3"
           >
             <div className="flex items-center justify-between">
-              <span className="font-heading text-ghost-white">Heir {index + 1}</span>
+              <span className="font-family-heading text-ghost-white">Heir {index + 1}</span>
               {heirs.length > 1 && (
                 <button
                   onClick={() => removeHeir(heir.id)}
@@ -119,9 +119,9 @@ export function HeirManager({ heirs, onChange }: HeirManagerProps) {
 
       <div className="glass p-4 rounded">
         <div className="flex items-center justify-between">
-          <span className="font-heading text-ghost-white">Total Allocation</span>
+          <span className="font-family-heading text-ghost-white">Total Allocation</span>
           <span
-            className={`text-2xl font-heading ${
+            className={`text-2xl font-family-heading ${
               isValid
                 ? 'text-green-500'
                 : totalPercentage > 100

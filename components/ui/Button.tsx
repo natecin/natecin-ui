@@ -15,7 +15,7 @@ export function Button({
 }: ButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const baseStyles = 'relative overflow-hidden px-8 py-4 rounded font-heading font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'relative overflow-hidden px-8 py-4 rounded font-family-heading font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variantStyles = {
     primary: 'bg-soul-red text-ghost-white hover:bg-soul-red/90 box-glow hover:box-glow-strong hover:scale-105',

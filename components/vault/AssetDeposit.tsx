@@ -39,14 +39,14 @@ export function AssetDeposit({ onDeposit }: AssetDepositProps) {
 
   return (
     <div className="space-y-6">
-      <h3 className="text-xl font-heading text-ghost-white">Deposit Assets</h3>
+      <h3 className="text-xl font-family-heading text-ghost-white">Deposit Assets</h3>
 
       <div className="flex gap-2 glass p-1 rounded">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 px-4 py-3 rounded font-heading transition-all ${
+            className={`flex-1 px-4 py-3 rounded font-family-heading transition-all ${
               activeTab === tab.id
                 ? 'bg-soul-red text-ghost-white'
                 : 'text-silver-dust hover:text-ghost-white'
@@ -74,7 +74,7 @@ export function AssetDeposit({ onDeposit }: AssetDepositProps) {
                 />
                 <button
                   onClick={handleMaxClick}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-soul-red hover:text-soul-red/80 font-heading text-sm"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-soul-red hover:text-soul-red/80 font-family-heading text-sm"
                 >
                   MAX
                 </button>

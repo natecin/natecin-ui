@@ -50,7 +50,7 @@ export function NetworkSwitcher() {
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-            <p className="text-ghost-white font-heading">
+            <p className="text-ghost-white font-family-heading">
               ⚠️ Wrong Network - Please switch to <span className="font-bold">Lisk Sepolia</span>
             </p>
           </div>
@@ -65,7 +65,7 @@ export function NetworkSwitcher() {
               );
             }}
             disabled={isPending}
-            className="px-4 py-2 bg-white text-soul-red rounded font-heading font-semibold hover:bg-ghost-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-white text-soul-red rounded font-family-heading font-semibold hover:bg-ghost-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isPending ? 'Switching...' : 'Switch to Lisk Sepolia'}
           </button>

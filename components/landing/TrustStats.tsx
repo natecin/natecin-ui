@@ -63,7 +63,7 @@ export function TrustStats() {
               <div className="relative mb-4 inline-block w-full">
                 {/* RGB split layers for chromatic aberration */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-10 animate-pulse transition-opacity">
-                  <div className="text-5xl md:text-6xl font-heading text-soul-red blur-sm">
+                  <div className="text-5xl md:text-6xl font-family-heading text-soul-red blur-sm">
                     {index === 0 && '$'}
                     {index === 1 && counts[index].toLocaleString()}
                     {index === 2 && counts[index]}
@@ -72,7 +72,7 @@ export function TrustStats() {
                 </div>
 
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-10 animate-pulse transition-opacity" style={{ animationDelay: '100ms' }}>
-                  <div className="text-5xl md:text-6xl font-heading text-neon-purple blur-sm" style={{ transform: 'translateX(2px)' }}>
+                  <div className="text-5xl md:text-6xl font-family-heading text-neon-purple blur-sm" style={{ transform: 'translateX(2px)' }}>
                     {index === 0 && '$'}
                     {index === 1 && counts[index].toLocaleString()}
                     {index === 2 && counts[index]}
@@ -83,7 +83,7 @@ export function TrustStats() {
                 {/* Main holographic text */}
                 <div className="relative z-10">
                   <div 
-                    className="text-5xl md:text-6xl font-heading holographic text-transparent bg-clip-text"
+                    className="text-5xl md:text-6xl font-family-heading holographic text-transparent bg-clip-text"
                     data-text={`${index === 0 ? '$' : ''}${counts[index]}${stat.suffix}`}
                     style={{
                       backgroundImage: 'linear-gradient(90deg, #C11A29, #00F0FF, #B026FF, #C11A29)',
