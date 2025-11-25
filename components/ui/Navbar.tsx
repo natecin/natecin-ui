@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { HeartPulse, Copy, LogOut } from "lucide-react";
+import { HeartPulse, Copy, LogOut, Menu, X } from "lucide-react";
 import { Button } from "./Button";
 import { cn } from "@/lib/utils";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
@@ -12,10 +12,10 @@ interface NavbarProps {
 }
 
 export function Navbar({ onConnectWallet }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { address, isConnected } = useAccount();
@@ -25,16 +25,6 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
   // Fix hydration mismatch by waiting for client-side mount
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -106,14 +96,9 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
 
   return (
     <nav
-      className={cn(
-        "sticky top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
-          ? "glass-enhanced backdrop-blur-xl border-b border-white/10"
-          : "bg-transparent"
-      )}
+      className="absolute top-0 left-0 right-0 z-50"
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo with heartbeat pulse */}
         <div className="flex items-center gap-3 group">
           <HeartPulse className="w-8 h-8 text-soul-red animate-heartbeat group-hover:text-pulse-red transition-colors" />
@@ -125,7 +110,7 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
           <div className="absolute -inset-2 bg-soul-red/20 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
         </div>
 
-        {/* Navigation links */}
+        {/* Navigation links - Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {["Features", "How It Works", "About"].map((link) => (
             <a
@@ -134,13 +119,21 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
               className="text-silver-dust hover:text-ghost-white transition-colors duration-200 relative group"
             >
               {link}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-soul-red to-pulse-red group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-soul-red to-pulse-red group-hover:w-full transition-all duration-300" />
             </a>
           ))}
         </div>
 
-        {/* Connect Wallet button with enhanced glow */}
-        <div className="relative" ref={dropdownRef}>
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden flex items-center justify-center w-10 h-10 text-silver-dust hover:text-ghost-white transition-colors"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+
+        {/* Connect Wallet button - Desktop only */}
+        <div className="hidden md:block relative" ref={dropdownRef}>
           <Button
             variant="primary"
             onClick={handleWalletAction}
@@ -166,42 +159,19 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
             </span>
 
             {/* Button glow backdrop */}
-            <div className="absolute inset-0 bg-linear-to-r from-soul-red/50 to-pulse-red/50 rounded blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-soul-red/50 to-pulse-red/50 rounded blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
           </Button>
 
           {/* Dropdown menu */}
           {mounted && isConnected && showDropdown && (
             <div
-              className="absolute right-0 w-56 rounded-lg overflow-hidden"
-              style={{
-                top: '100%',
-                marginTop: '8px',
-                zIndex: 10000,
-                backgroundColor: 'rgba(30, 30, 30, 0.98)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)',
-              }}
+              className="absolute right-0 w-56 rounded-lg overflow-hidden top-full mt-2 z-[10000] glass-enhanced border border-white/20 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ padding: '8px' }}>
+              <div className="p-2">
                 <button
                   onClick={handleCopyAddress}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '12px 16px',
-                    textAlign: 'left',
-                    color: '#F5F5F5',
-                    background: 'transparent',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  className="w-full flex items-center gap-3 p-3 text-left text-ghost-white hover:bg-white/10 rounded-md transition-colors duration-200"
                 >
                   <Copy className="w-4 h-4" />
                   <span>{copied ? "Copied!" : "Copy Address"}</span>
@@ -209,22 +179,7 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
                 <button
                   type="button"
                   onClick={handleDisconnect}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '12px 16px',
-                    textAlign: 'left',
-                    color: '#DC2626',
-                    background: 'transparent',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    transition: 'background 0.2s',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  className="w-full flex items-center gap-3 p-3 text-left text-red-600 hover:bg-white/10 rounded-md transition-colors duration-200"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Disconnect</span>
@@ -235,10 +190,75 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
         </div>
       </div>
 
-      {/* Animated bottom border */}
-      {scrolled && (
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-soul-red to-transparent" />
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 glass-enhanced border-b border-white/10">
+          <div className="px-4 py-6 space-y-4">
+            {["Features", "How It Works", "About"].map((link) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="block text-silver-dust hover:text-ghost-white transition-colors duration-200 relative group py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-soul-red to-pulse-red group-hover:w-full transition-all duration-300" />
+              </a>
+            ))}
+            
+            {/* Mobile Connect Wallet */}
+            <div className="pt-4 border-t border-white/10">
+              <Button
+                variant="primary"
+                onClick={handleWalletAction}
+                disabled={isConnecting}
+                className="w-full"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {!mounted ? (
+                    "Connect Wallet"
+                  ) : isConnecting ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Connecting...
+                    </>
+                  ) : isConnected && address ? (
+                    formatAddress(address)
+                  ) : (
+                    "Connect Wallet"
+                  )}
+                </span>
+              </Button>
+              
+              {/* Mobile dropdown menu */}
+              {mounted && isConnected && showDropdown && (
+                <div className="mt-2 glass-enhanced border border-white/20 rounded-lg">
+                  <button
+                    onClick={handleCopyAddress}
+                    className="w-full flex items-center gap-3 p-3 text-left text-ghost-white hover:bg-white/10 rounded-t-md transition-colors duration-200"
+                  >
+                    <Copy className="w-4 h-4" />
+                    <span>{copied ? "Copied!" : "Copy Address"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDisconnect}
+                    className="w-full flex items-center gap-3 p-3 text-left text-red-600 hover:bg-white/10 rounded-b-md transition-colors duration-200"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Disconnect</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       )}
+
+
     </nav>
   );
 }

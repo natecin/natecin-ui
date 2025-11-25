@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Wallet, Users, Vault, Activity } from 'lucide-react';
+import { AnimatedIcon } from '@/components/ui/AnimatedIcon';
 
 export function HowItWorks() {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
@@ -73,26 +74,36 @@ export function HowItWorks() {
         const endX = (i + 2) * spacing;
 
         // Multiple particles flowing along the line
-        for (let p = 0; p < 3; p++) {
-          const offset = (time + p * 0.3) % 1;
+        for (let p = 0; p < 5; p++) {
+          const offset = (time * 0.5 + p * 0.2) % 1;
           const x = startX + (endX - startX) * offset;
-          const particleY = lineY + Math.sin(time * 2 + p) * 3;
+          const particleY = lineY + Math.sin(time * 3 + p * 2) * 5;
 
-          // Particle glow
-          const gradient = ctx.createRadialGradient(x, particleY, 0, x, particleY, 8);
-          gradient.addColorStop(0, 'rgba(255, 46, 59, 0.8)');
-          gradient.addColorStop(1, 'rgba(255, 46, 59, 0)');
+          // Create rainbow gradient for particles
+          const hue = (time * 50 + p * 60) % 360;
+          const gradient = ctx.createRadialGradient(x, particleY, 0, x, particleY, 12);
+          gradient.addColorStop(0, `hsla(${hue}, 100%, 50%, 0.8)`);
+          gradient.addColorStop(0.5, `hsla(${hue}, 100%, 50%, 0.3)`);
+          gradient.addColorStop(1, `hsla(${hue}, 100%, 50%, 0)`);
 
           ctx.fillStyle = gradient;
           ctx.beginPath();
-          ctx.arc(x, particleY, 8, 0, Math.PI * 2);
+          ctx.arc(x, particleY, 12, 0, Math.PI * 2);
           ctx.fill();
 
-          // Particle core
-          ctx.fillStyle = 'rgba(255, 46, 59, 1)';
+          // Particle core with soul red center
+          ctx.fillStyle = 'rgba(193, 26, 41, 1)';
           ctx.beginPath();
           ctx.arc(x, particleY, 3, 0, Math.PI * 2);
           ctx.fill();
+
+          // Electric trail effect
+          ctx.strokeStyle = `hsla(${hue}, 100%, 50%, 0.3)`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x - 10, particleY);
+          ctx.lineTo(x + 10, particleY);
+          ctx.stroke();
         }
       }
 
@@ -179,10 +190,11 @@ export function HowItWorks() {
                       <div className="absolute inset-0 rounded-full bg-soul-red/20 blur-lg animate-pulse-glow" />
                     )}
 
-                    <Icon
-                      className={`w-10 h-10 transition-colors duration-300 relative z-10 ${
-                        isHovered ? 'text-ghost-white' : 'text-soul-red'
-                      }`}
+                    <AnimatedIcon
+                      icon={Icon}
+                      type={isHovered ? 'glow' : 'pulse'}
+                      size={40}
+                      className={isHovered ? 'text-ghost-white' : 'text-soul-red'}
                     />
                   </div>
 

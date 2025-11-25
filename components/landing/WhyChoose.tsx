@@ -3,22 +3,23 @@
 import React from 'react';
 import { Card } from '@/components/ui/Card';
 import { Shield, Zap, Lock } from 'lucide-react';
+import { AnimatedShield, AnimatedZap, AnimatedLock } from '@/components/ui/AnimatedIcon';
 
 export function WhyChoose() {
   const features = [
     {
       title: 'Trustless Protocol',
-      icon: Shield,
+      icon: AnimatedShield,
       description: 'No intermediaries. No lawyers. Pure smart contract automation ensures your wishes are executed exactly as planned.',
     },
     {
       title: 'Fully Automated',
-      icon: Zap,
+      icon: AnimatedZap,
       description: 'Advanced activity monitoring triggers automatic transfer after your specified inactivity period. Set it once, forget it.',
     },
     {
       title: 'Bank-Grade Security',
-      icon: Lock,
+      icon: AnimatedLock,
       description: "Military-grade encryption on Ethereum. Your assets are protected by the world's most secure decentralized network.",
     },
   ];
@@ -41,8 +42,8 @@ export function WhyChoose() {
                 tiltEffect={true}
                 className="p-8 hover:border-soul-red/50 transition-all duration-300 text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-soul-red/10 flex items-center justify-center icon-pulse">
-                  <Icon className="w-8 h-8 text-soul-red" />
+                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-soul-red/10 flex items-center justify-center">
+                  <Icon size={32} className="text-soul-red" />
                 </div>
                 
                 <h3 className="text-xl font-family-heading text-ghost-white mb-4">

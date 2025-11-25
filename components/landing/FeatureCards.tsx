@@ -3,6 +3,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/Card';
 import { Vault, HandshakeIcon } from 'lucide-react';
+import { AnimatedIcon } from '@/components/ui/AnimatedIcon';
 
 export function FeatureCards() {
   return (
@@ -12,7 +13,7 @@ export function FeatureCards() {
           <Card tiltEffect={true} className="p-8 hover:border-soul-red/50 transition-all duration-300">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="w-20 h-20 rounded-full bg-soul-red/10 flex items-center justify-center">
-                <Vault className="w-10 h-10 text-soul-red" />
+                <AnimatedIcon icon={Vault} type="vault" size={40} className="text-soul-red" />
               </div>
               <h3 className="text-2xl font-family-heading text-ghost-white">
                 For Vault Owners
@@ -43,8 +44,8 @@ export function FeatureCards() {
 
           <Card tiltEffect={true} className="p-8 hover:border-soul-red/50 transition-all duration-300">
             <div className="flex flex-col items-center text-center space-y-4">
-              <div className="w-20 h-20 rounded-full bg-pulse-red/10 flex items-center justify-center icon-pulse">
-                <HandshakeIcon className="w-10 h-10 text-pulse-red" />
+              <div className="w-20 h-20 rounded-full bg-pulse-red/10 flex items-center justify-center">
+                <AnimatedIcon icon={HandshakeIcon} type="pulse" size={40} className="text-pulse-red" />
               </div>
               <h3 className="text-2xl font-family-heading text-ghost-white">
                 For Heirs

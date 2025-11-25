@@ -12,7 +12,7 @@ import { Footer } from '@/components/landing/Footer';
 import { VaultWizard } from '@/components/vault/VaultWizard';
 import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
 import { MouseGlow } from '@/components/ui/MouseGlow';
-import { Navbar } from '@/components/ui/Navbar';
+import { ScrollReveal, StaggerContainer } from '@/components/ui/ScrollReveal';
 
 export default function Home() {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
@@ -22,18 +22,33 @@ export default function Home() {
     <main className="min-h-screen noise-texture">
       <AnimatedBackground />
       <MouseGlow />
-      <Navbar onConnectWallet={() => setIsWizardOpen(true)} />
       
-      <Hero 
-        onCreateVault={() => setIsWizardOpen(true)}
-        onAccessDashboard={() => router.push('/dashboard')}
-      />
-      <LegacyMonitor />
-      {/* <TrustStats /> */}
-      <FeatureCards />
-      <HowItWorks />
-      <WhyChoose />
-      <Footer />
+      <ScrollReveal direction="fade" duration={0.8}>
+        <Hero 
+          onCreateVault={() => setIsWizardOpen(true)}
+          onAccessDashboard={() => router.push('/dashboard')}
+        />
+      </ScrollReveal>
+      
+      <ScrollReveal direction="up" delay={0.2}>
+        <LegacyMonitor />
+      </ScrollReveal>
+      
+      <ScrollReveal direction="up" delay={0.3}>
+        <FeatureCards />
+      </ScrollReveal>
+      
+      <ScrollReveal direction="up" delay={0.4}>
+        <HowItWorks />
+      </ScrollReveal>
+      
+      <ScrollReveal direction="up" delay={0.5}>
+        <WhyChoose />
+      </ScrollReveal>
+      
+      <ScrollReveal direction="fade" delay={0.6}>
+        <Footer />
+      </ScrollReveal>
       
       <VaultWizard 
         isOpen={isWizardOpen} 

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Heart, Plus, Wallet, Clock, TrendingUp } from 'lucide-react';
@@ -53,8 +54,9 @@ export default function Dashboard() {
   const totalValue = mockVaults.reduce((sum, vault) => sum + vault.totalValue, 0);
 
   return (
-    <div className="min-h-screen px-6 py-12">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen noise-texture pt-20">
+      <AnimatedBackground />
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-4xl font-family-heading text-ghost-white mb-2">
@@ -71,7 +73,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          <Card glass={false} className="p-6">
+          <Card glass={true} className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Wallet className="w-5 h-5 text-soul-red" />
               <span className="text-sm text-silver-dust">Total Value Locked</span>
@@ -81,7 +83,7 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          <Card glass={false} className="p-6">
+          <Card glass={true} className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp className="w-5 h-5 text-green-500" />
               <span className="text-sm text-silver-dust">Active Vaults</span>
@@ -91,7 +93,7 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          <Card glass={false} className="p-6">
+          <Card glass={true} className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Heart className="w-5 h-5 text-pulse-red" />
               <span className="text-sm text-silver-dust">Total Beneficiaries</span>
@@ -104,7 +106,7 @@ export default function Dashboard() {
 
         <div className="grid gap-6">
           {mockVaults.map((vault) => (
-            <Card key={vault.id} glass={false} className="p-6 hover:border-soul-red/50 transition-all duration-300">
+            <Card key={vault.id} glass={true} className="p-6 hover:border-soul-red/50 transition-all duration-300">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-3">
