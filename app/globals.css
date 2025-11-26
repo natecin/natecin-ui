@@ -64,6 +64,45 @@ body {
   position: relative;
 }
 
+/* Fix for glass elements blocking interactions */
+.glass-enhanced input,
+.glass-enhanced button,
+.glass-enhanced [role="button"],
+.glass-enhanced [type="checkbox"],
+.glass-enhanced [type="radio"] {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto !important;
+  isolation: isolate;
+}
+
+.glass-enhanced [type="checkbox"] {
+  cursor: pointer !important;
+}
+
+/* Ensure clickable areas in glass containers work */
+.glass-enhanced .cursor-pointer {
+  pointer-events: auto !important;
+  z-index: 15 !important;
+}
+
+/* Specific fix for checkboxes in glass containers */
+.glass-enhanced input[type="checkbox"] {
+  position: relative !important;
+  z-index: 20 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Fix for any interactive elements inside glass */
+.glass-enhanced [onclick],
+.glass-enhanced [role="button"],
+.glass-enhanced .cursor-pointer * {
+  pointer-events: auto !important;
+}
+
 .glass-enhanced::before {
   content: '';
   position: absolute;

@@ -17,7 +17,11 @@ NATECIN embodies a "High-end Fintech meets Cyberpunk Legacy" aesthetic with:
 ## ✨ Features
 
 ### Landing Page
-- **Hero Section**: Centered headline with dual CTA buttons
+- **Hero Section**: Centered headline with enhanced CTA buttons featuring:
+  - Animated sparkle effects and gradients
+  - Motion-triggered hover states with scaling
+  - Arrow icons that translate on hover
+  - Trust indicators showing live status
 - **Legacy Monitor**: Interactive overlay card featuring:
   - Live EKG-style heartbeat graph
   - Asset distribution donut chart
@@ -25,22 +29,14 @@ NATECIN embodies a "High-end Fintech meets Cyberpunk Legacy" aesthetic with:
   - Auto-execution timer with progress bar
 - **Feature Cards**: Dual value proposition for vault owners and heirs
 
-### Vault Creation Wizard
-- **Step 1 - Configuration**:
-  - Web3 wallet connection
-  - Multi-heir management with dynamic percentage split
-  - Real-time validation (must equal 100%)
-  - Configurable inactivity timer (30 days, 6 months, 1 year, custom)
-
-- **Step 2 - Asset Deposit**:
-  - Multi-asset support (ETH, Tokens, NFTs)
-  - Tabbed interface for asset types
-  - Live USD conversion
-  - "Max" button for quick balance selection
-
-- **Step 3 - Review & Confirm**:
-  - Comprehensive vault summary
-  - Smart contract execution agreement
+### Dashboard Vault Creation
+- **Enhanced CreateVaultForm**: Integrated vault creation with:
+  - Landing page theme matching design
+  - Real-time field validation with inline errors
+  - Animated feature highlights (Shield, Clock, Users)
+  - Progressive fee breakdown with USD conversion
+  - Glass morphism effects and smooth animations
+  - Motion-triggered field focus effects
 
 ### Dashboard
 - **Vault Grid**: Display all created vaults with:
@@ -101,18 +97,21 @@ natecin/
 │   └── globals.css           # Global styles & theme
 ├── components/
 │   ├── landing/
-│   │   ├── Hero.tsx          # Hero section
+│   │   ├── Hero.tsx          # Hero section with enhanced CTAs
 │   │   ├── LegacyMonitor.tsx # Overlay card with graphs
 │   │   └── FeatureCards.tsx  # Value proposition cards
 │   ├── vault/
-│   │   ├── VaultWizard.tsx   # Multi-step modal
-│   │   ├── HeirManager.tsx   # Heir configuration UI
+│   │   ├── CreateVaultForm.tsx # Enhanced vault creation form
+│   │   ├── VaultCard.tsx    # Individual vault display
+│   │   ├── HeirManager.tsx  # Heir configuration UI
 │   │   └── AssetDeposit.tsx  # Asset tabs interface
 │   └── ui/
 │       ├── Button.tsx        # Reusable button
 │       ├── Card.tsx          # Glassmorphic card
 │       ├── HeartbeatGraph.tsx # EKG animation
-│       └── DonutChart.tsx    # Asset distribution chart
+│       ├── DonutChart.tsx    # Asset distribution chart
+│       ├── AnimatedIcon.tsx # Animated icon library
+│       └── FloatingVault.tsx # 3D animated vault
 └── lib/
     └── utils.ts              # Utility functions
 ```

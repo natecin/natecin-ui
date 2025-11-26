@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -16,12 +16,14 @@ interface HeirManagerProps {
 }
 
 export function HeirManager({ heirs, onChange }: HeirManagerProps) {
+  const idCounterRef = useRef(heirs.length);
   const totalPercentage = heirs.reduce((sum, heir) => sum + heir.percentage, 0);
   const isValid = totalPercentage === 100;
 
   const addHeir = () => {
+    idCounterRef.current += 1;
     const newHeir: Heir = {
-      id: Math.random().toString(36).substring(7),
+      id: `heir-${idCounterRef.current}`,
       address: '',
       percentage: 0,
     };

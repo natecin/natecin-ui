@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useAccount, useChainId, useSwitchChain } from 'wagmi';
+import { useConnection, useChainId, useSwitchChain } from 'wagmi';
 import { liskSepolia } from '@/lib/wagmi';
 
 export function NetworkSwitcher() {
-  const { isConnected } = useAccount();
+  const connection = useConnection();
+  const isConnected = connection.isConnected;
   const chainId = useChainId();
   const { switchChain, isPending } = useSwitchChain();
   const [hasSwitched, setHasSwitched] = useState(false);

@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { HeartPulse, Copy, LogOut, Menu, X } from "lucide-react";
 import { Button } from "./Button";
 import { cn } from "@/lib/utils";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useConnection, useConnect, useDisconnect } from "wagmi";
 import { config } from "@/lib/wagmi";
 
 interface NavbarProps {
@@ -18,7 +18,9 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { address, isConnected } = useAccount();
+  const connection = useConnection();
+  const address = connection.address;
+  const isConnected = connection.isConnected;
   const { connectAsync, isPending: isConnecting } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -46,8 +48,8 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
       setShowDropdown(!showDropdown);
     } else {
       try {
-        // Clear ALL wagmi-related localStorage to force fresh connection
-        if (typeof window !== 'undefined') {
+        // Clear ALL wagmi-related localStorage to force fresh connection (only on client)
+        if (mounted) {
           const allKeys = Object.keys(localStorage);
           allKeys.forEach(key => {
             if (key.startsWith('wagmi') || key.includes('wagmi')) {
