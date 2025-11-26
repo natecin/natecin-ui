@@ -4,15 +4,15 @@ import React, { useState, useRef } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
-interface Heir {
+interface Beneficiary {
   id: string;
   address: string;
   percentage: number;
 }
 
 interface HeirManagerProps {
-  heirs: Heir[];
-  onChange: (heirs: Heir[]) => void;
+  heirs: Beneficiary[];
+  onChange: (heirs: Beneficiary[]) => void;
 }
 
 export function HeirManager({ heirs, onChange }: HeirManagerProps) {
@@ -22,7 +22,7 @@ export function HeirManager({ heirs, onChange }: HeirManagerProps) {
 
   const addHeir = () => {
     idCounterRef.current += 1;
-    const newHeir: Heir = {
+    const newHeir: Beneficiary = {
       id: `heir-${idCounterRef.current}`,
       address: '',
       percentage: 0,
@@ -45,14 +45,14 @@ export function HeirManager({ heirs, onChange }: HeirManagerProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-family-heading text-ghost-white">Heir Management</h3>
+        <h3 className="text-xl font-family-heading text-ghost-white">Beneficiary Management</h3>
         <Button
           variant="secondary"
           onClick={addHeir}
           className="flex items-center gap-2 px-4 py-2 text-sm"
         >
           <Plus className="w-4 h-4" />
-          Add Heir
+          Add Beneficiary
         </Button>
       </div>
 
@@ -63,7 +63,7 @@ export function HeirManager({ heirs, onChange }: HeirManagerProps) {
             className="glass p-4 rounded space-y-3"
           >
             <div className="flex items-center justify-between">
-              <span className="font-family-heading text-ghost-white">Heir {index + 1}</span>
+              <span className="font-family-heading text-ghost-white">Beneficiary {index + 1}</span>
               {heirs.length > 1 && (
                 <button
                   onClick={() => removeHeir(heir.id)}
