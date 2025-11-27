@@ -1,16 +1,37 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
-import { Card } from '@/components/ui/Card';
+import React, { useState, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/Button';
 import { Heart, Plus, Wallet, Clock, TrendingUp } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { useConnection } from 'wagmi';
 import { useVaultsByOwner } from '@/hooks/useVaults';
-import { CreateVaultForm } from '@/components/vault';
-import { VaultCardSimple } from '@/components/vault';
 import { formatEtherValue, calculateVaultAge } from '@/lib/contracts/utils';
+
+// Dynamic imports for better performance
+const AnimatedBackground = dynamic(() => import('@/components/ui/AnimatedBackground').then(mod => ({ default: mod.AnimatedBackground })), {
+  ssr: false,
+  loading: () => null
+});
+
+const Card = dynamic(() => import('@/components/ui/Card').then(mod => ({ default: mod.Card })), {
+  ssr: false
+});
+
+const CreateVaultForm = dynamic(() => import('@/components/vault').then(mod => ({ default: mod.CreateVaultForm })), {
+  ssr: false,
+  loading: () => (
+    <div className="p-8 text-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-soul-red mx-auto"></div>
+      <p className="mt-2 text-silver-dust">Loading...</p>
+    </div>
+  )
+});
+
+const VaultCardSimple = dynamic(() => import('@/components/vault').then(mod => ({ default: mod.VaultCardSimple })), {
+  ssr: false
+});
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);

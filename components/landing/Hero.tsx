@@ -106,23 +106,6 @@ export function Hero({ onCreateVault, onAccessDashboard }: HeroProps = {}) {
             <div className="absolute inset-0 bg-white/5 rounded-full blur-lg group-hover:bg-white/10 transition-colors -z-10" />
           </motion.div>
         </motion.div>
-
-        {/* Additional trust indicators */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="flex items-center justify-center gap-8 pt-8 text-silver-dust/80"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm">Live on Lisk Sepolia</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-500 rounded-full" />
-            <span className="text-sm">1000+ Vaults Created</span>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

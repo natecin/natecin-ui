@@ -1,7 +1,29 @@
 'use client';
 
-import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+// Lazy load recharts components for better performance
+const PieChart = dynamic(() => import('recharts').then(mod => ({ default: mod.PieChart })), {
+  ssr: false,
+  loading: () => <div className="w-full h-48 flex items-center justify-center text-silver-dust">Loading chart...</div>
+});
+
+const Pie = dynamic(() => import('recharts').then(mod => ({ default: mod.Pie })), {
+  ssr: false
+});
+
+const Cell = dynamic(() => import('recharts').then(mod => ({ default: mod.Cell })), {
+  ssr: false
+});
+
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => ({ default: mod.ResponsiveContainer })), {
+  ssr: false
+});
+
+const Legend = dynamic(() => import('recharts').then(mod => ({ default: mod.Legend })), {
+  ssr: false
+});
 
 interface HeirData {
   name: string;

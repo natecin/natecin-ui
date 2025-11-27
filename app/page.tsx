@@ -2,19 +2,51 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Hero } from '@/components/landing/Hero';
-import { LegacyMonitor } from '@/components/landing/LegacyMonitor';
-import { TrustStats } from '@/components/landing/TrustStats';
-import { FeatureCards } from '@/components/landing/FeatureCards';
-import { HowItWorks } from '@/components/landing/HowItWorks';
-import { WhyChoose } from '@/components/landing/WhyChoose';
-import { Footer } from '@/components/landing/Footer';
-import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
-import { MouseGlow } from '@/components/ui/MouseGlow';
-import { ScrollReveal, StaggerContainer } from '@/components/ui/ScrollReveal';
+import dynamic from 'next/dynamic';
+import { useDevicePerformance } from '@/hooks/useDevicePerformance';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
+
+const Hero = dynamic(() => import('@/components/landing/Hero').then(mod => ({ default: mod.Hero })), {
+  ssr: false
+});
+
+const LegacyMonitor = dynamic(() => import('@/components/landing/LegacyMonitor').then(mod => ({ default: mod.LegacyMonitor })), {
+  ssr: false
+});
+
+const TrustStats = dynamic(() => import('@/components/landing/TrustStats').then(mod => ({ default: mod.TrustStats })), {
+  ssr: false
+});
+
+const FeatureCards = dynamic(() => import('@/components/landing/FeatureCards').then(mod => ({ default: mod.FeatureCards })), {
+  ssr: false
+});
+
+const HowItWorks = dynamic(() => import('@/components/landing/HowItWorks').then(mod => ({ default: mod.HowItWorks })), {
+  ssr: false
+});
+
+const WhyChoose = dynamic(() => import('@/components/landing/WhyChoose').then(mod => ({ default: mod.WhyChoose })), {
+  ssr: false
+});
+
+const Footer = dynamic(() => import('@/components/landing/Footer').then(mod => ({ default: mod.Footer })), {
+  ssr: false
+});
+
+const AnimatedBackground = dynamic(() => import('@/components/ui/AnimatedBackground').then(mod => ({ default: mod.AnimatedBackground })), {
+  ssr: false,
+  loading: () => null
+});
+
+const MouseGlow = dynamic(() => import('@/components/ui/MouseGlow').then(mod => ({ default: mod.MouseGlow })), {
+  ssr: false,
+  loading: () => null
+});
 
 export default function Home() {
   const router = useRouter();
+  const devicePerformance = useDevicePerformance();
 
   const handleCreateVault = () => {
     router.push('/dashboard');
@@ -26,8 +58,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen noise-texture">
-      <AnimatedBackground />
-      <MouseGlow />
+      {!devicePerformance.shouldReduceAnimations && <AnimatedBackground />}
+      {!devicePerformance.shouldReduceAnimations && <MouseGlow />}
       
       <ScrollReveal direction="fade" duration={0.8}>
         <Hero 

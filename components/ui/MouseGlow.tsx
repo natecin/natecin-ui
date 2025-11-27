@@ -4,15 +4,31 @@ import React, { useEffect, useState } from 'react';
 
 export function MouseGlow() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isLowEndDevice, setIsLowEndDevice] = useState(false);
 
   useEffect(() => {
+    const isLowEndDevice = 
+      ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    setIsLowEndDevice(isLowEndDevice);
+    
+    if (isLowEndDevice) return;
+
     const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      requestAnimationFrame(() => {
+        setPosition({ x: e.clientX, y: e.clientY });
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  if (isLowEndDevice) {
+    return null;
+  }
 
   return (
     <div

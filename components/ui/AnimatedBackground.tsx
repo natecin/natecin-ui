@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 
 interface Particle {
   x: number;
@@ -11,12 +11,46 @@ interface Particle {
   opacity: number;
 }
 
-export function AnimatedBackground() {
+export const AnimatedBackground = memo(function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isLowEndDevice, setIsLowEndDevice] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const checkDevicePerformance = () => {
+      const connection = (navigator as any).connection;
+      const isSlowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
+      const isLowMemory = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
+      const isLowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+      
+      setIsLowEndDevice(isSlowConnection || isLowMemory || isLowCores);
+    };
+
+    checkDevicePerformance();
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (canvasRef.current) {
+      observerRef.current.observe(canvasRef.current);
+    }
+
+    return () => {
+      if (observerRef.current && canvasRef.current) {
+        observerRef.current.unobserve(canvasRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !isVisible) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -29,22 +63,33 @@ export function AnimatedBackground() {
     window.addEventListener('resize', resizeCanvas);
 
     const particles: Particle[] = [];
-    const particleCount = 80;
+    const particleCount = isLowEndDevice ? 15 : 30;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.5 + 0.2,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.3 + 0.1,
       });
     }
 
     let animationFrameId: number;
+    let lastTime = 0;
+    const targetFPS = isLowEndDevice ? 30 : 60;
+    const frameInterval = 1000 / targetFPS;
 
-    const animate = () => {
+    const animate = (currentTime: number) => {
+      if (!isVisible) return;
+      
+      if (currentTime - lastTime < frameInterval) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      
+      lastTime = currentTime;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((particle) => {
@@ -59,37 +104,39 @@ export function AnimatedBackground() {
         ctx.fillStyle = `rgba(193, 26, 41, ${particle.opacity})`;
         ctx.fill();
 
+        // Simplified gradient for performance
         const gradient = ctx.createRadialGradient(
           particle.x,
           particle.y,
           0,
           particle.x,
           particle.y,
-          particle.size * 3
+          particle.size * 2
         );
-        gradient.addColorStop(0, `rgba(193, 26, 41, ${particle.opacity * 0.3})`);
+        gradient.addColorStop(0, `rgba(193, 26, 41, ${particle.opacity * 0.2})`);
         gradient.addColorStop(1, 'rgba(193, 26, 41, 0)');
         ctx.fillStyle = gradient;
         ctx.fillRect(
-          particle.x - particle.size * 3,
-          particle.y - particle.size * 3,
-          particle.size * 6,
-          particle.size * 6
+          particle.x - particle.size * 2,
+          particle.y - particle.size * 2,
+          particle.size * 4,
+          particle.size * 4
         );
       });
 
+      const connectionDistance = isLowEndDevice ? 100 : 150;
       particles.forEach((particle, i) => {
         particles.slice(i + 1).forEach((otherParticle) => {
           const dx = particle.x - otherParticle.x;
           const dy = particle.y - otherParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < connectionDistance) {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(193, 26, 41, ${0.1 * (1 - distance / 150)})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(193, 26, 41, ${0.05 * (1 - distance / connectionDistance)})`;
+            ctx.lineWidth = 0.3;
             ctx.stroke();
           }
         });
@@ -98,13 +145,13 @@ export function AnimatedBackground() {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    animate(0);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isVisible, isLowEndDevice]);
 
   return (
     <>
@@ -116,4 +163,4 @@ export function AnimatedBackground() {
       />
     </>
   );
-}
+});

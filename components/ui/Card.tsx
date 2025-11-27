@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useDevicePerformance } from '@/hooks/useDevicePerformance';
 
 interface CardProps {
   children: React.ReactNode;
@@ -12,13 +13,19 @@ interface CardProps {
 export function Card({ children, className = '', glass = true, tiltEffect = false }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const devicePerformance = useDevicePerformance();
+
+  const getGlassClass = () => {
+    if (!glass) return 'bg-charcoal border-white/10';
+    return devicePerformance.preferredGlassClass;
+  };
 
   const baseStyles = 'rounded p-6 border transition-all duration-300';
-  const glassStyles = glass ? 'glass-enhanced' : 'bg-charcoal border-white/10';
-  const tiltStyles = tiltEffect ? 'card-3d' : '';
+  const glassStyles = getGlassClass();
+  const tiltStyles = tiltEffect && !devicePerformance.shouldReduceAnimations ? 'card-3d' : '';
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!tiltEffect || !cardRef.current) return;
+    if (!tiltEffect || !cardRef.current || devicePerformance.shouldReduceAnimations) return;
 
     const card = cardRef.current;
     const rect = card.getBoundingClientRect();

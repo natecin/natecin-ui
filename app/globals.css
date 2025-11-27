@@ -45,13 +45,13 @@ body {
 
 /* Enhanced Glassmorphism */
 .glass {
-  backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .glass-enhanced {
-  backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(150%);
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.08) 0%,
@@ -62,6 +62,25 @@ body {
     0 8px 32px 0 rgba(193, 26, 41, 0.1),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   position: relative;
+}
+
+/* Performance-optimized glass variants */
+.glass-light {
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-mobile {
+  backdrop-filter: blur(6px);
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* No-glass fallback for very low-end devices */
+.glass-none {
+  background-color: rgba(26, 26, 31, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Fix for glass elements blocking interactions */

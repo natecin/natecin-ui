@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { LucideIcon, Shield, Lock, Heart, Vault, Activity, Zap, Star, CheckCircle, AlertCircle, TrendingUp, Users, Wallet, ArrowRight, Github, Twitter } from 'lucide-react';
+import { LucideIcon, Shield, Lock, Heart, Vault, Activity, Zap, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface AnimatedIconProps {
@@ -165,22 +165,8 @@ export function AnimatedVaultIcon(props: Omit<AnimatedIconProps, 'icon' | 'type'
   return <AnimatedIcon {...props} icon={Vault} type="vault" />;
 }
 
-export function AnimatedActivity(props: Omit<AnimatedIconProps, 'icon' | 'type'>) {
-  return <AnimatedIcon {...props} icon={Activity} type="pulse" />;
-}
-
 export function AnimatedZap(props: Omit<AnimatedIconProps, 'icon' | 'type'>) {
   return <AnimatedIcon {...props} icon={Zap} type="sparkle" />;
 }
 
-export function AnimatedStar(props: Omit<AnimatedIconProps, 'icon' | 'type'>) {
-  return <AnimatedIcon {...props} icon={Star} type="sparkle" />;
-}
 
-export function AnimatedCheck(props: Omit<AnimatedIconProps, 'icon' | 'type'>) {
-  return <AnimatedIcon {...props} icon={CheckCircle} type="bounce" />;
-}
-
-export function AnimatedTrending(props: Omit<AnimatedIconProps, 'icon' | 'type'>) {
-  return <AnimatedIcon {...props} icon={TrendingUp} type="float" />;
-}

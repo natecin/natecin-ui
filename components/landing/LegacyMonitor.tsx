@@ -38,24 +38,37 @@ export function LegacyMonitor() {
     }
 
     const particles: Particle[] = [];
-    const particleCount = 15;
+    // Reduce particle count based on device performance
+    const isLowEndDevice = 
+      ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
+    const particleCount = isLowEndDevice ? 6 : 8;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.4 + 0.2,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.3 + 0.1,
         pulsePhase: Math.random() * Math.PI * 2,
       });
     }
 
     let animationFrameId: number;
     let time = 0;
+    let lastTime = 0;
+    const targetFPS = isLowEndDevice ? 30 : 60;
+    const frameInterval = 1000 / targetFPS;
 
-    const animate = () => {
+    const animate = (currentTime: number) => {
+      // Frame skipping for performance
+      if (currentTime - lastTime < frameInterval) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = currentTime;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       time += 0.01;
 
@@ -72,18 +85,18 @@ export function LegacyMonitor() {
         particle.x = Math.max(0, Math.min(canvas.width, particle.x));
         particle.y = Math.max(0, Math.min(canvas.height, particle.y));
 
-        // Pulsing effect
-        const pulse = Math.sin(particle.pulsePhase) * 0.5 + 0.5;
+        // Simplified pulsing effect for performance
+        const pulse = Math.sin(particle.pulsePhase) * 0.3 + 0.7;
         const currentOpacity = particle.opacity * pulse;
 
-        // Draw particle with gradient
+        // Simplified particle rendering
         const gradient = ctx.createRadialGradient(
           particle.x,
           particle.y,
           0,
           particle.x,
           particle.y,
-          particle.size * 3
+          particle.size * 2
         );
         gradient.addColorStop(0, `rgba(193, 26, 41, ${currentOpacity})`);
         gradient.addColorStop(1, `rgba(193, 26, 41, 0)`);
@@ -93,29 +106,30 @@ export function LegacyMonitor() {
         ctx.arc(
           particle.x,
           particle.y,
-          particle.size * 3,
+          particle.size * 2,
           0,
           Math.PI * 2
         );
         ctx.fill();
 
         // Core particle
-        ctx.fillStyle = `rgba(193, 26, 41, ${currentOpacity * 1.5})`;
+        ctx.fillStyle = `rgba(193, 26, 41, ${currentOpacity * 1.2})`;
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Draw connections between nearby particles
+      // Simplified connection logic
+      const connectionDistance = isLowEndDevice ? 80 : 100;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) {
-            ctx.strokeStyle = `rgba(193, 26, 41, ${0.1 * (1 - distance / 100)})`;
-            ctx.lineWidth = 0.5;
+          if (distance < connectionDistance) {
+            ctx.strokeStyle = `rgba(193, 26, 41, ${0.05 * (1 - distance / connectionDistance)})`;
+            ctx.lineWidth = 0.3;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -127,7 +141,7 @@ export function LegacyMonitor() {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    animate(0);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
