@@ -18,6 +18,13 @@ import {
 import { useConnection, useAccount } from 'wagmi';
 import { VaultCardEnhanced } from '@/components/vault';
 import { useVaultSummary, useUpdateActivity } from '@/hooks/useVaults';
+import { VaultTimeline } from '@/components/vault/VaultTimeline';
+import { AssetPortfolio } from '@/components/vault/AssetPortfolio';
+import { BeneficiaryManager } from '@/components/vault/BeneficiaryManager';
+import { ActionCenter } from '@/components/vault/ActionCenter';
+import { SecurityIndicators } from '@/components/vault/SecurityIndicators';
+import { DataExportSharing } from '@/components/vault/DataExportSharing';
+import { VaultPersonalization } from '@/components/vault/VaultPersonalization';
 
 export default function VaultDetailPage({ params }: { params: Promise<{ address: string }> }) {
   const resolvedParams = use(params);
@@ -159,7 +166,7 @@ export default function VaultDetailPage({ params }: { params: Promise<{ address:
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
         {/* Header with Back Button */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
@@ -245,212 +252,96 @@ export default function VaultDetailPage({ params }: { params: Promise<{ address:
           </Card>
         </div>
 
-        {/* Activity Monitor & Actions */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-          <Card className="border border-white/20">
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="w-4 h-4 text-soul-red" />
-                <h3 className="text-sm font-family-heading text-ghost-white">
-                  Activity Monitor
-                </h3>
-              </div>
-              <div className="h-48 bg-charcoal rounded border border-white/5 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-soul-red/5 to-transparent" />
-                <HeartbeatGraph />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="border border-white/20">
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <Settings className="w-4 h-4 text-soul-red" />
-                <h3 className="text-sm font-family-heading text-ghost-white">
-                  Vault Actions
-                </h3>
-              </div>
-              <div className="space-y-3">
-                {isOwner && !summary.executed && (
-                  <Button 
-                    onClick={handleImAlive}
-                    disabled={isUpdatingActivity}
-                    className="w-full"
-                  >
-                    <Heart className="w-4 h-4 mr-2" />
-                    {isUpdatingActivity ? "Updating..." : "I'm Alive"}
-                  </Button>
-                )}
-                
-                {isOwner && summary.canDistribute && (
-                  <Button 
-                    className="w-full bg-yellow-600 hover:bg-yellow-700"
-                  >
-                    <Wallet className="w-4 h-4 mr-2" />
-                    Ready to Distribute
-                  </Button>
-                )}
-                
-                {!isOwner && (
-                  <div className="flex items-center gap-2 p-3 bg-charcoal rounded border border-white/5">
-                    <AlertCircle className="w-4 h-4 text-yellow-400" />
-                    <div>
-                      <div className="text-sm text-ghost-white font-family-heading">
-                        View Only
-                      </div>
-                      <div className="text-xs text-silver-dust">
-                        Only vault owners can perform actions
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {summary.executed && (
-                  <div className="flex items-center gap-2 p-3 bg-charcoal rounded border border-white/5">
-                    <ShieldCheck className="w-4 h-4 text-gray-400" />
-                    <div>
-                      <div className="text-sm text-gray-400 font-family-heading">
-                        Vault Executed
-                      </div>
-                      <div className="text-xs text-silver-dust">
-                        Assets have been distributed to the beneficiary
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Asset Details - Only show if there are assets */}
-        {(summary.erc721Count > 0 || summary.erc20Count > 0) && (
-          <Card className="border border-white/20 mb-8">
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <Coins className="w-4 h-4 text-soul-red" />
-                <h3 className="text-sm font-family-heading text-ghost-white">
-                  Asset Holdings
-                </h3>
-              </div>
-              
-              {/* NFT Gallery - Only show if there are NFTs */}
-              {summary.erc721Count > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-silver-dust">NFT Collection</span>
-                    <span className="text-sm text-ghost-white">
-                      {summary.erc721Count} items
-                    </span>
-                  </div>
-                  <div className="text-center py-8 px-4 bg-charcoal/50 rounded-lg border border-white/5">
-                    <Image className="w-12 h-12 text-silver-dust mx-auto mb-3" />
-                    <p className="text-sm text-ghost-white font-family-heading mb-1">
-                      {summary.erc721Count} NFTs
-                    </p>
-                    <p className="text-xs text-silver-dust">
-                      NFT visualization will be available in next update
-                    </p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Token Holdings - Only show if there are tokens */}
-              {summary.erc20Count > 0 && (
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-silver-dust">Token Holdings</span>
-                    <span className="text-sm text-ghost-white">
-                      {summary.erc20Count} types
-                    </span>
-                  </div>
-                  <div className="text-center py-8 px-4 bg-charcoal/50 rounded-lg border border-white/5">
-                    <Coins className="w-12 h-12 text-silver-dust mx-auto mb-3" />
-                    <p className="text-sm text-ghost-white font-family-heading mb-1">
-                      {summary.erc20Count} Token Types
-                    </p>
-                    <p className="text-xs text-silver-dust">
-                      Token visualization will be available in next update
-                    </p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Empty state if no assets */}
-              {summary.erc721Count === 0 && summary.erc20Count === 0 && (
-                <div className="text-center py-8 px-4 bg-charcoal/50 rounded-lg border border-white/5">
-                  <Wallet className="w-12 h-12 text-silver-dust mx-auto mb-3" />
-                  <p className="text-sm text-ghost-white font-family-heading mb-1">
-                    No Assets Yet
-                  </p>
-                  <p className="text-xs text-silver-dust">
-                    This vault doesn't contain any assets. Deposit ETH, tokens, or NFTs to get started.
-                  </p>
-                </div>
-              )}
-            </div>
-          </Card>
-        )}
-
-        {/* Contract Info */}
-        <Card className="border border-white/20">
-          <div className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="w-4 h-4 text-soul-red" />
-              <h3 className="text-sm font-family-heading text-ghost-white">
-                Contract Information
-              </h3>
-            </div>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {/* Left Column - Timeline and Activity */}
+          <div className="xl:col-span-2 space-y-6 overflow-x-auto lg:overflow-visible snap-x snap-mandatory">
+            <VaultTimeline summary={summary} isOwner={isOwner} />
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-silver-dust">Owner</span>
-                  <span className="text-sm text-ghost-white font-family-heading">
-                    {shortenAddress(summary.owner)}
-                  </span>
+            {/* Activity Monitor with Enhanced Visualization */}
+            <Card className="border border-white/20">
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrendingUp className="w-4 h-4 text-soul-red" />
+                  <h3 className="text-sm font-family-heading text-ghost-white">
+                    Activity Monitor
+                  </h3>
                 </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-silver-dust">Beneficiary</span>
-                  <span className="text-sm text-ghost-white font-family-heading">
-                    {shortenAddress(summary.heir)}
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-silver-dust">Status</span>
-                  <span className={`text-sm font-family-heading ${
-                    summary.executed ? 'text-gray-400' : 'text-emerald-400'
-                  }`}>
-                    {summary.executed ? 'Executed' : 'Active'}
-                  </span>
+                <div className="h-48 bg-charcoal rounded border border-white/5 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-soul-red/5 to-transparent" />
+                  <HeartbeatGraph />
                 </div>
               </div>
-              
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-silver-dust">Inactivity</span>
-                  <span className="text-sm text-ghost-white font-family-heading">
-                    {summary.inactivityPeriod} seconds
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-silver-dust">Last Activity</span>
-                  <span className="text-sm text-ghost-white font-family-heading">
-                    {formatDateFromTimestamp(summary.lastActiveTimestamp)}
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-silver-dust">Security</span>
-                  <span className="text-sm text-emerald-400">Audited</span>
-                </div>
-              </div>
-            </div>
+            </Card>
+
+            {/* Asset Portfolio */}
+            <AssetPortfolio summary={summary} />
+            
+            <VaultPersonalization 
+              summary={summary}
+              isOwner={isOwner}
+            />
+            
+            <DataExportSharing 
+              summary={summary}
+              isOwner={isOwner}
+            />
           </div>
-        </Card>
+
+          {/* Right Column - Actions and Beneficiary */}
+          <div className="space-y-6 xl:sticky xl:top-20 xl:h-fit">
+            <ActionCenter 
+              summary={summary}
+              isOwner={isOwner}
+              onImAlive={handleImAlive}
+              onDeposit={() => router.push(`/dashboard/vault/${resolvedParams.address}/deposit`)}
+            />
+            
+            <BeneficiaryManager 
+              summary={summary}
+              isOwner={isOwner}
+              onEditBeneficiary={() => router.push(`/dashboard/vault/${resolvedParams.address}/edit`)}
+            />
+            
+            <SecurityIndicators 
+              summary={summary}
+              isOwner={isOwner}
+            />
+
+            {/* Contract Info */}
+            <Card className="border border-white/20">
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <ShieldCheck className="w-4 h-4 text-soul-red" />
+                  <h3 className="text-sm font-family-heading text-ghost-white">
+                    Contract Information
+                  </h3>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-silver-dust">Owner</span>
+                    <span className="text-sm text-ghost-white font-family-heading">
+                      {shortenAddress(summary.owner)}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-silver-dust">Inactivity</span>
+                    <span className="text-sm text-ghost-white font-family-heading">
+                      {(Number(summary.inactivityPeriod) / 86400).toFixed(1)} days
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-silver-dust">Security</span>
+                    <span className="text-sm text-emerald-400">Audited</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

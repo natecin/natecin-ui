@@ -10,11 +10,13 @@ interface Ripple {
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
 }
 
 export function Button({ 
   variant = 'primary', 
+  size = 'md',
   children, 
   className = '',
   ...props 
@@ -23,7 +25,13 @@ export function Button({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const rippleIdRef = useRef(0);
 
-  const baseStyles = 'relative overflow-hidden px-8 py-4 rounded font-family-heading font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed';
+  const sizeStyles = {
+    sm: 'px-4 py-2 text-xs',
+    md: 'px-8 py-4 text-sm',
+    lg: 'px-12 py-5 text-base'
+  };
+
+  const baseStyles = `relative overflow-hidden rounded font-family-heading font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${sizeStyles[size]}`;
   
   const variantStyles = {
     primary: 'bg-soul-red text-ghost-white hover:bg-soul-red/90 box-glow hover:box-glow-strong hover:scale-105',
