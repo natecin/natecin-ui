@@ -11,6 +11,10 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/natecin-icon.png', // Path to your icon in the public directory
+    apple: '/natecin-icon.png', // Path to your Apple touch icon
+  },
   title: "NATECIN - Decentralized Inheritance Vault",
   description: "When your last breath fades... Your legacy begins. Trustless. Automated. Secure.",
 };
