@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { HeartPulse } from 'lucide-react';
+
 
 export function Footer() {
   const links = [
@@ -16,7 +16,11 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-3">
-            <HeartPulse className="w-8 h-8 text-soul-red" />
+            <img 
+              src="/natecin-icon.png" 
+              alt="NATECIN" 
+              className="w-8 h-8"
+            />
             <span className="text-2xl font-family-heading text-ghost-white">NATECIN</span>
           </div>
 
@@ -33,7 +37,7 @@ export function Footer() {
           </nav>
 
           <div className="text-silver-dust text-sm text-center md:text-right">
-            © 2024 Natecin.
+            © 2025 Natecin.
             <br />
             Your legacy, secured forever on the blockchain.
           </div>

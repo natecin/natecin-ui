@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
+
+interface Ripple {
+  id: number;
+  x: number;
+  y: number;
+}
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
@@ -13,7 +19,9 @@ export function Button({
   className = '',
   ...props 
 }: ButtonProps) {
+  const [ripples, setRipples] = useState<Ripple[]>([]);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const rippleIdRef = useRef(0);
 
   const baseStyles = 'relative overflow-hidden px-8 py-4 rounded font-family-heading font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed';
   
@@ -23,22 +31,24 @@ export function Button({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const button = e.currentTarget;
+    const button = buttonRef.current;
+    if (!button) return;
+    
     const rect = button.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
-    ripple.style.width = '10px';
-    ripple.style.height = '10px';
+    const newRipple: Ripple = {
+      id: rippleIdRef.current++,
+      x,
+      y
+    };
 
-    button.appendChild(ripple);
+    setRipples(prev => [...prev, newRipple]);
 
+    // Remove ripple after animation
     setTimeout(() => {
-      ripple.remove();
+      setRipples(prev => prev.filter(r => r.id !== newRipple.id));
     }, 600);
 
     if (props.onClick) {
@@ -53,6 +63,19 @@ export function Button({
       {...props}
       onClick={handleClick}
     >
+      {ripples.map(ripple => (
+        <span
+          key={ripple.id}
+          className="absolute bg-white/30 rounded-full animate-ping"
+          style={{
+            left: ripple.x - 5,
+            top: ripple.y - 5,
+            width: '10px',
+            height: '10px',
+            pointerEvents: 'none',
+          }}
+        />
+      ))}
       {children}
     </button>
   );

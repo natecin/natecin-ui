@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { HeartPulse, Copy, LogOut, Menu, X } from "lucide-react";
+import { Copy, LogOut, Menu, X } from "lucide-react";
 import { Button } from "./Button";
 import { cn } from "@/lib/utils";
 import { useConnection, useConnect, useDisconnect } from "wagmi";
 import { config } from "@/lib/wagmi";
+import Link from "next/link";
 
 interface NavbarProps {
   onConnectWallet?: () => void;
@@ -97,33 +98,23 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
   };
 
   return (
-    <nav
-      className="absolute top-0 left-0 right-0 z-50"
-    >
+    <nav className="absolute top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        {/* Logo with heartbeat pulse */}
+        {/* Logo with custom icon */}
         <div className="flex items-center gap-3 group">
-          <HeartPulse className="w-8 h-8 text-soul-red animate-heartbeat group-hover:text-pulse-red transition-colors" />
-          <span className="text-2xl font-family-heading text-ghost-white group-hover:text-soul-red transition-colors duration-300">
-            NATECIN
-          </span>
+          <Link href="/" className="flex">
+            <img
+              src="/natecin-icon.png"
+              alt="NATECIN"
+              className="w-8 h-8 transition-all duration-300 group-hover:scale-110"
+            />
+            <span className="text-2xl ml-2 font-family-heading text-ghost-white group-hover:text-soul-red transition-colors duration-300">
+              NATECIN
+            </span>
+          </Link>
 
           {/* Logo glow on hover */}
           <div className="absolute -inset-2 bg-soul-red/20 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-        </div>
-
-        {/* Navigation links - Desktop */}
-        <div className="hidden md:flex items-center gap-8">
-          {["Features", "How It Works", "About"].map((link) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              className="text-silver-dust hover:text-ghost-white transition-colors duration-200 relative group"
-            >
-              {link}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-soul-red to-pulse-red group-hover:w-full transition-all duration-300" />
-            </a>
-          ))}
         </div>
 
         {/* Mobile menu button */}
@@ -131,25 +122,49 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
           className="md:hidden flex items-center justify-center w-10 h-10 text-silver-dust hover:text-ghost-white transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
 
         {/* Connect Wallet button - Desktop only */}
         <div className="hidden md:block relative" ref={dropdownRef}>
           <Button
-            variant="primary"
+            variant={isConnected ? "secondary" : "primary"}
             onClick={handleWalletAction}
             disabled={isConnecting}
-            className="relative animate-pulse-glow hover:animate-pulse-glow"
+            className={cn(
+              "relative hover:animate-pulse-glow",
+              isConnected &&
+                "glass-enhanced border-white/20 hover:border-white/30"
+            )}
           >
             <span className="relative z-10 flex items-center gap-2">
               {!mounted ? (
                 "Connect Wallet"
               ) : isConnecting ? (
                 <>
-                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Connecting...
                 </>
@@ -167,7 +182,13 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
           {/* Dropdown menu */}
           {mounted && isConnected && showDropdown && (
             <div
-              className="absolute right-0 w-56 rounded-lg overflow-hidden top-full mt-2 z-[10000] glass-enhanced border border-white/20 shadow-2xl"
+              className="absolute right-0 rounded-lg overflow-hidden glass-enhanced border border-white/20 shadow-2xl"
+              style={{
+                position: "absolute",
+                top: "100%",
+                marginTop: "1rem",
+                zIndex: 10000,
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-2">
@@ -181,7 +202,7 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
                 <button
                   type="button"
                   onClick={handleDisconnect}
-                  className="w-full flex items-center gap-3 p-3 text-left text-red-600 hover:bg-white/10 rounded-md transition-colors duration-200"
+                  className="w-full flex items-center gap-3 p-3 text-left text-ghost-white hover:bg-white/10 rounded-md transition-colors duration-200"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Disconnect</span>
@@ -196,18 +217,6 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 glass-enhanced border-b border-white/10">
           <div className="px-4 py-6 space-y-4">
-            {["Features", "How It Works", "About"].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="block text-silver-dust hover:text-ghost-white transition-colors duration-200 relative group py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-soul-red to-pulse-red group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
-            
             {/* Mobile Connect Wallet */}
             <div className="pt-4 border-t border-white/10">
               <Button
@@ -221,9 +230,25 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
                     "Connect Wallet"
                   ) : isConnecting ? (
                     <>
-                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Connecting...
                     </>
@@ -234,10 +259,17 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
                   )}
                 </span>
               </Button>
-              
+
               {/* Mobile dropdown menu */}
               {mounted && isConnected && showDropdown && (
-                <div className="mt-2 glass-enhanced border border-white/20 rounded-lg">
+                <div
+                  className="mt-2 glass-enhanced border border-white/20 rounded-lg"
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    zIndex: 10000,
+                  }}
+                >
                   <button
                     onClick={handleCopyAddress}
                     className="w-full flex items-center gap-3 p-3 text-left text-ghost-white hover:bg-white/10 rounded-t-md transition-colors duration-200"
@@ -259,8 +291,6 @@ export function Navbar({ onConnectWallet }: NavbarProps) {
           </div>
         </div>
       )}
-
-
     </nav>
   );
 }

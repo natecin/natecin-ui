@@ -221,7 +221,7 @@ export function VaultCreationWizard({ onSubmit, isLoading, initialData }: VaultC
         </div>
 
         {/* Step Content */}
-        <div className="max-w-2xl mx-auto">
+        <div className="w-full">
           {currentStep === 0 && (
             // Heirs Configuration Step
             <div className="space-y-6">
@@ -482,7 +482,7 @@ export function VaultCreationWizard({ onSubmit, isLoading, initialData }: VaultC
   };
 
   return (
-    <Card glass={true} className="w-full max-w-4xl mx-auto overflow-hidden">
+    <Card glass={true} className="w-full overflow-hidden">
       <div className="p-8">
         {/* Progress Bar */}
         <ProgressBar

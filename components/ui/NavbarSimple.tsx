@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { HeartPulse, Copy, LogOut, Menu, X } from "lucide-react";
+import { Copy, LogOut, Menu, X } from "lucide-react";
 import { Button } from "./Button";
 import { useConnection, useConnect, useDisconnect } from "wagmi";
 import { config } from "@/lib/wagmi";
@@ -93,7 +93,11 @@ export function NavbarSimple({ onConnectWallet }: NavbarSimpleProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <HeartPulse className="w-7 h-7 text-soul-red" />
+          <img 
+            src="/natecin-icon.png" 
+            alt="NATECIN" 
+            className="w-7 h-7"
+          />
           <span className="text-xl font-semibold text-ghost-white">
             NATECIN
           </span>
@@ -151,7 +155,11 @@ export function NavbarSimple({ onConnectWallet }: NavbarSimpleProps) {
           {/* Dropdown menu */}
           {mounted && isConnected && showDropdown && (
             <div
-              className="absolute right-0 w-56 rounded-lg overflow-hidden top-full mt-2 z-[10000] bg-gray-900 border border-gray-700 shadow-lg"
+              className="absolute right-0 w-56 rounded-lg overflow-hidden bg-gray-900 border border-gray-700 shadow-lg"
+              style={{ 
+                top: '100%',
+                zIndex: 10000
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-2">
@@ -222,7 +230,14 @@ export function NavbarSimple({ onConnectWallet }: NavbarSimpleProps) {
               
               {/* Mobile dropdown menu */}
               {mounted && isConnected && showDropdown && (
-                <div className="mt-2 bg-gray-800 border border-gray-700 rounded-lg">
+                <div 
+                  className="bg-gray-800 border border-gray-700 rounded-lg"
+                  style={{ 
+                    position: 'absolute',
+                    top: '100%',
+                    zIndex: 10000
+                  }}
+                >
                   <button
                     onClick={handleCopyAddress}
                     className="w-full flex items-center gap-3 p-3 text-left text-gray-200 hover:bg-gray-700 rounded-t-md transition-colors"

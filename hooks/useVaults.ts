@@ -152,6 +152,9 @@ export function useVaultSummary(vaultAddress?: `0x${string}`) {
   // Convert tuple/array response to object
   const formatData = (data: any): VaultSummary | null => {
     if (!data) return null;
+
+    console.log(data);
+    
     
     // Handle both tuple/array and object responses
     if (Array.isArray(data)) {

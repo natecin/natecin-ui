@@ -52,9 +52,7 @@ export default function Home() {
         <WhyChoose />
       </ScrollReveal>
       
-      <ScrollReveal direction="fade" delay={0.6}>
-        <Footer />
-      </ScrollReveal>
+      <Footer />
     </main>
   );
 }

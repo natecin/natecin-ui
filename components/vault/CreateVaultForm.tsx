@@ -84,28 +84,9 @@ export function CreateVaultForm({ onSuccess, onError }: CreateVaultFormProps) {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Header with animated icon */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center"
-      >
-        <AnimatedVaultIcon size={64} className="text-soul-red mx-auto mb-4" />
-        <h2 className="text-4xl font-family-heading text-ghost-white mb-4">
-          Create Your Inheritance Vault
-        </h2>
-        <p className="text-silver-dust text-lg max-w-2xl mx-auto">
-          Secure your digital assets for your loved ones. Trustless, automated, and protected by smart contracts.
-        </p>
-      </motion.div>
-
-      {/* Vault Creation Wizard */}
       <VaultCreationWizard
         onSubmit={handleWizardSubmit}
         isLoading={isLoading}
       />
-    </div>
   );
 }

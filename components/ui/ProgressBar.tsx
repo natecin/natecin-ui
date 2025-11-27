@@ -38,10 +38,7 @@ export function ProgressBar({ steps, currentStep, onStepClick }: ProgressBarProp
           return (
             <motion.div
               key={step.id}
-              className="flex flex-col items-center cursor-pointer group"
-              onClick={() => onStepClick && onStepClick(index)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="flex flex-col items-center"
             >
               {/* Step Circle */}
               <motion.div
@@ -96,15 +93,7 @@ export function ProgressBar({ steps, currentStep, onStepClick }: ProgressBarProp
                 )}
               </div>
               
-              {/* Hover Effect */}
-              {onStepClick && (
-                <motion.div
-                  className="absolute -inset-2 rounded-full border border-soul-red/30 opacity-0 group-hover:opacity-100 pointer-events-none"
-                  initial={{ scale: 0.8 }}
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.2 }}
-                />
-              )}
+
             </motion.div>
           );
         })}

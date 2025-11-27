@@ -9,7 +9,7 @@ import { formatCurrency } from '@/lib/utils';
 import { useConnection } from 'wagmi';
 import { useVaultsByOwner } from '@/hooks/useVaults';
 import { CreateVaultForm } from '@/components/vault';
-import { VaultCard } from '@/components/vault';
+import { VaultCardSimple } from '@/components/vault';
 import { formatEtherValue, calculateVaultAge } from '@/lib/contracts/utils';
 
 export default function Dashboard() {
@@ -52,11 +52,6 @@ export default function Dashboard() {
 
   const handleCreateError = (error: Error) => {
     showNotification('error', error.message);
-  };
-
-  const handleVaultAction = (message: string) => {
-    showNotification('success', message);
-    refetch();
   };
 
   if (!mounted) {
@@ -201,7 +196,7 @@ export default function Dashboard() {
             <p className="text-silver-dust mb-6">
               Create your first inheritance vault to secure your digital assets for your loved ones.
             </p>
-            <Button onClick={() => setShowCreateForm(true)} className="mx-auto">
+            <Button onClick={() => setShowCreateForm(true)} className="flex items-center justify-center mx-auto">
               <Plus className="w-5 h-5 mr-2" />
               Create Your First Vault
             </Button>
@@ -212,12 +207,9 @@ export default function Dashboard() {
         {!isLoading && !error && vaults.length > 0 && (
           <div className="grid gap-6">
             {vaults.map((vaultAddress) => (
-              <VaultCard
+              <VaultCardSimple
                 key={vaultAddress}
                 vaultAddress={vaultAddress}
-                onDeposit={(addr) => handleVaultAction(`Deposit initiated for vault ${addr.slice(0, 8)}...`)}
-                onUpdate={(addr) => handleVaultAction(`Activity updated for vault ${addr.slice(0, 8)}...`)}
-                onDistribute={(addr) => handleVaultAction(`Distribution initiated for vault ${addr.slice(0, 8)}...`)}
               />
             ))}
           </div>
