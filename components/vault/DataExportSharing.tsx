@@ -335,7 +335,7 @@ export function DataExportSharing({ summary, isOwner }: DataExportSharingProps) 
             </button>
             
             <button
-              onClick={() => window.open(`https://etherscan.io/address/${summary.vault}`, '_blank')}
+              onClick={() => window.open(`https://sepolia-blockscout.lisk.com/address/${summary.vault}`, '_blank')}
               className="w-full p-3 bg-charcoal/50 rounded-lg border border-white/5 text-left flex items-center gap-3 hover:bg-charcoal/70 transition-colors"
             >
               <ExternalLink className="w-4 h-4 text-silver-dust" />

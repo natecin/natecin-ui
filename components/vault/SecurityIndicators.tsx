@@ -212,8 +212,7 @@ export function SecurityIndicators({ summary, isOwner }: SecurityIndicatorsProps
                 <div className="mt-0.5">
                   {metric.icon}
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-1">
+                <div className="flex flex-col space-y-2">
                     <span className="text-xs font-medium text-ghost-white">
                       {metric.label}
                     </span>
@@ -225,7 +224,6 @@ export function SecurityIndicators({ summary, isOwner }: SecurityIndicatorsProps
                        : metric.id === 'diversity' ? `${metric.value} types`
                        : metric.value}
                     </span>
-                  </div>
                   <p className="text-xs opacity-80">
                     {metric.description}
                   </p>
