@@ -58,8 +58,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen noise-texture">
-      {!devicePerformance.shouldReduceAnimations && <AnimatedBackground />}
-      {!devicePerformance.shouldReduceAnimations && <MouseGlow />}
+      <AnimatedBackground />
       
       <ScrollReveal direction="fade" duration={0.8}>
         <Hero 
