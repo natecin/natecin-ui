@@ -179,6 +179,7 @@ export function VaultCreationWizard({ onSubmit, isLoading, initialData }: VaultC
         heirs: [...prev.heirs, { address: '', percentage: Math.min(remaining, 50) }],
       }));
     }
+  }
 
   const updateHeir = (index: number, field: 'address' | 'percentage', value: string | number) => {
     const newHeirs = [...formData.heirs];
@@ -541,5 +542,4 @@ export function VaultCreationWizard({ onSubmit, isLoading, initialData }: VaultC
       </div>
     </Card>
   );
-}
 }
