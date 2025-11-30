@@ -76,7 +76,7 @@ export interface RegistryVaultInfo {
 
 // Transaction types
 export interface HeirWithPercentage {
-  address: Address | '0x0000000000000000000000000000000000000000'; // Allow empty string for form input
+  address: Address | '0x0000000000000000000000000000000000000000' | ''; // Allow empty string for form input
   percentage: number; // Percentage of inheritance (0-100)
 }
 

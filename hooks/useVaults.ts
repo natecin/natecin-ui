@@ -1,7 +1,7 @@
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { BaseError, parseEther, parseUnits } from 'viem';
 import React, { useState, useCallback } from 'react';
-import { CONTRACT_ADDRESSES, ABIS, type VaultDetails, type VaultSummary, type CreateVaultParams, type ContractError, type DepositAsset } from '../lib/contracts';
+import { CONTRACT_ADDRESSES, ABIS, type VaultDetails, type VaultSummary, type CreateVaultParams, type ContractError, type DepositAsset, type HeirWithPercentage } from '../lib/contracts';
 import { calculateCreationFees, validateCreateVaultParams } from '../lib/contracts/utils';
 
 // ERC20 Token ABI for balance and info queries
@@ -250,8 +250,14 @@ export function useCreateVault() {
 
       if (params.heirs && params.heirs.length > 0) {
         // Multiple heirs mode
-        heirAddresses = params.heirs.map(heir => heir.address);
-        heirPercentages = params.heirs.map(heir => BigInt(heir.percentage * 100)); // Convert to basis points (10000 = 100%)
+        heirAddresses = params.heirs
+          .filter((heir): heir is HeirWithPercentage & { address: `0x${string}` } => 
+            heir.address !== '' && heir.address !== '0x0000000000000000000000000000000000000000')
+          .map(heir => heir.address);
+        heirPercentages = params.heirs
+          .filter((heir): heir is HeirWithPercentage & { address: `0x${string}` } => 
+            heir.address !== '' && heir.address !== '0x0000000000000000000000000000000000000000')
+          .map(heir => BigInt(heir.percentage * 100)); // Convert to basis points (10000 = 100%)
       } else {
         // Single heir mode (backwards compatibility)
         const heirAddress = params.heir || '0x0000000000000000000000000000000000000000';
