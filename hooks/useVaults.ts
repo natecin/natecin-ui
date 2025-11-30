@@ -244,42 +244,35 @@ export function useCreateVault() {
         params.estimatedNFTCount || 0
       );
 
-      // Use multi-heir function when multiple heirs are provided
-      if (params.heirs && params.heirs.length > 1) {
-        const heirAddresses = params.heirs.map(heir => heir.address);
-        const heirPercentages = params.heirs.map(heir => BigInt(heir.percentage * 100)); // Convert to basis points (10000 = 100%)
-        
-        const args = [
-          heirAddresses,
-          heirPercentages,
-          BigInt(params.inactivityPeriod),
-          BigInt(params.estimatedNFTCount || 0)
-        ] as const;
+      // Always pass arrays for heirs and percentages, even for single heir
+      let heirAddresses: `0x${string}`[] = [];
+      let heirPercentages: bigint[] = [];
 
-        writeContract({
-          address: CONTRACT_ADDRESSES.factory,
-          abi: ABIS.factory,
-          functionName: 'createVault',
-          args,
-          value: fees.total,
-        });
+      if (params.heirs && params.heirs.length > 0) {
+        // Multiple heirs mode
+        heirAddresses = params.heirs.map(heir => heir.address);
+        heirPercentages = params.heirs.map(heir => BigInt(heir.percentage * 100)); // Convert to basis points (10000 = 100%)
       } else {
-        // Single heir mode
-        const heirAddress = params.heirs?.[0]?.address || params.heir || '';
-        const args = [
-          heirAddress,
-          BigInt(params.inactivityPeriod),
-          BigInt(params.estimatedNFTCount || 0)
-        ] as const;
-
-        writeContract({
-          address: CONTRACT_ADDRESSES.factory,
-          abi: ABIS.factory,
-          functionName: 'createVault',
-          args,
-          value: fees.total,
-        });
+        // Single heir mode (backwards compatibility)
+        const heirAddress = params.heir || '0x0000000000000000000000000000000000000000';
+        heirAddresses = [heirAddress];
+        heirPercentages = [BigInt(10000)]; // 100% = 10000 basis points
       }
+      
+      const args = [
+        heirAddresses,
+        heirPercentages,
+        BigInt(params.inactivityPeriod),
+        BigInt(params.estimatedNFTCount || 0)
+      ] as const;
+
+      writeContract({
+        address: CONTRACT_ADDRESSES.factory,
+        abi: ABIS.factory,
+        functionName: 'createVault',
+        args,
+        value: fees.total,
+      });
 
       return hash;
     } catch (err) {
