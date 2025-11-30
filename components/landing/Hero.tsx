@@ -14,7 +14,7 @@ interface HeroProps {
 
 export function Hero({ onCreateVault, onAccessDashboard }: HeroProps = {}) {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-52 pb-40 perspective-1000">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-36 pb-40 perspective-1000">
       <FloatingVault />
       <div className="max-w-6xl mx-auto text-center space-y-8 relative z-10">
         <motion.h1

@@ -340,7 +340,7 @@ export function DataExportSharing({ summary, isOwner }: DataExportSharingProps) 
             >
               <ExternalLink className="w-4 h-4 text-silver-dust" />
               <div>
-                <p className="text-sm text-ghost-white">View on Etherscan</p>
+                <p className="text-sm text-ghost-white">View on Blockscout</p>
                 <p className="text-xs text-silver-dust">Explore contract details</p>
               </div>
             </button>

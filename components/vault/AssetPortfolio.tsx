@@ -98,7 +98,7 @@ export function AssetPortfolio({ summary }: AssetPortfolioProps) {
   };
 
   const handleViewOnExplorer = (address: string) => {
-    window.open(`https://etherscan.io/address/${address}`, '_blank');
+    window.open(`https://sepolia-blockscout.lisk.com/address/${address}`, '_blank');
   };
 
   return (

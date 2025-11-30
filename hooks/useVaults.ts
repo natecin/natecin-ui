@@ -310,19 +310,33 @@ export function useCreateVault() {
 export function useDepositETH() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const [isDepositing, setIsDepositing] = useState(false);
 
-  const deposit = useCallback((vaultAddress: `0x${string}`, amount: string) => {
-    writeContract({
-      address: vaultAddress,
-      abi: ABIS.vault,
-      functionName: 'depositETH',
-      value: parseEther(amount),
-    });
-  }, [writeContract]);
+  const deposit = useCallback(async (vaultAddress: `0x${string}`, amount: string) => {
+    setIsDepositing(true);
+    try {
+      writeContract({
+        address: vaultAddress,
+        abi: ABIS.vault,
+        functionName: 'depositETH',
+        value: parseEther(amount),
+      });
+      return hash;
+    } catch (err) {
+      setIsDepositing(false);
+      throw err;
+    }
+  }, [writeContract, hash]);
+
+  React.useEffect(() => {
+    if (isConfirmed || error) {
+      setIsDepositing(false);
+    }
+  }, [isConfirmed, error]);
 
   return {
     deposit,
-    isLoading: isPending || isConfirming,
+    isLoading: isDepositing || isPending || isConfirming,
     isConfirmed,
     hash,
     error: error as ContractError | null,
@@ -335,24 +349,38 @@ export function useDepositETH() {
 export function useDepositERC20() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const [isDepositing, setIsDepositing] = useState(false);
 
-  const deposit = useCallback((
+  const deposit = useCallback(async (
     vaultAddress: `0x${string}`,
     tokenAddress: `0x${string}`,
     amount: string,
     decimals: number = 18
   ) => {
-    writeContract({
-      address: vaultAddress,
-      abi: ABIS.vault,
-      functionName: 'depositERC20',
-      args: [tokenAddress, parseUnits(amount, decimals)],
-    });
-  }, [writeContract]);
+    setIsDepositing(true);
+    try {
+      writeContract({
+        address: vaultAddress,
+        abi: ABIS.vault,
+        functionName: 'depositERC20',
+        args: [tokenAddress, parseUnits(amount, decimals)],
+      });
+      return hash;
+    } catch (err) {
+      setIsDepositing(false);
+      throw err;
+    }
+  }, [writeContract, hash]);
+
+  React.useEffect(() => {
+    if (isConfirmed || error) {
+      setIsDepositing(false);
+    }
+  }, [isConfirmed, error]);
 
   return {
     deposit,
-    isLoading: isPending || isConfirming,
+    isLoading: isDepositing || isPending || isConfirming,
     isConfirmed,
     hash,
     error: error as ContractError | null,
@@ -365,23 +393,37 @@ export function useDepositERC20() {
 export function useDepositERC721() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const [isDepositing, setIsDepositing] = useState(false);
 
-  const deposit = useCallback((
+  const deposit = useCallback(async (
     vaultAddress: `0x${string}`,
     collectionAddress: `0x${string}`,
     tokenId: string
   ) => {
-    writeContract({
-      address: vaultAddress,
-      abi: ABIS.vault,
-      functionName: 'depositERC721',
-      args: [collectionAddress, BigInt(tokenId)],
-    });
-  }, [writeContract]);
+    setIsDepositing(true);
+    try {
+      writeContract({
+        address: vaultAddress,
+        abi: ABIS.vault,
+        functionName: 'depositERC721',
+        args: [collectionAddress, BigInt(tokenId)],
+      });
+      return hash;
+    } catch (err) {
+      setIsDepositing(false);
+      throw err;
+    }
+  }, [writeContract, hash]);
+
+  React.useEffect(() => {
+    if (isConfirmed || error) {
+      setIsDepositing(false);
+    }
+  }, [isConfirmed, error]);
 
   return {
     deposit,
-    isLoading: isPending || isConfirming,
+    isLoading: isDepositing || isPending || isConfirming,
     isConfirmed,
     hash,
     error: error as ContractError | null,
@@ -394,18 +436,32 @@ export function useDepositERC721() {
 export function useUpdateActivity() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const updateActivity = useCallback((vaultAddress: `0x${string}`) => {
-    writeContract({
-      address: vaultAddress,
-      abi: ABIS.vault,
-      functionName: 'updateActivity',
-    });
-  }, [writeContract]);
+  const updateActivity = useCallback(async (vaultAddress: `0x${string}`) => {
+    setIsUpdating(true);
+    try {
+      writeContract({
+        address: vaultAddress,
+        abi: ABIS.vault,
+        functionName: 'updateActivity',
+      });
+      return hash;
+    } catch (err) {
+      setIsUpdating(false);
+      throw err;
+    }
+  }, [writeContract, hash]);
+
+  React.useEffect(() => {
+    if (isConfirmed || error) {
+      setIsUpdating(false);
+    }
+  }, [isConfirmed, error]);
 
   return {
     updateActivity,
-    isLoading: isPending || isConfirming,
+    isLoading: isUpdating || isPending || isConfirming,
     isConfirmed,
     hash,
     error: error as ContractError | null,
@@ -418,19 +474,34 @@ export function useUpdateActivity() {
 export function useUpdateHeir() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const updateHeir = useCallback((vaultAddress: `0x${string}`, newHeir: `0x${string}`) => {
-    writeContract({
-      address: vaultAddress,
-      abi: ABIS.vault,
-      functionName: 'setHeir',
-      args: [newHeir],
-    });
-  }, [writeContract]);
+  const updateHeir = useCallback(async (vaultAddress: `0x${string}`, newHeir: `0x${string}`) => {
+    setIsUpdating(true);
+    try {
+      // Using setHeirs function with arrays - even for single heir
+      writeContract({
+        address: vaultAddress,
+        abi: ABIS.vault,
+        functionName: 'setHeirs',
+        args: [[newHeir], [BigInt(10000)]], // 100% = 10000 basis points
+      });
+      return hash;
+    } catch (err) {
+      setIsUpdating(false);
+      throw err;
+    }
+  }, [writeContract, hash]);
+
+  React.useEffect(() => {
+    if (isConfirmed || error) {
+      setIsUpdating(false);
+    }
+  }, [isConfirmed, error]);
 
   return {
     updateHeir,
-    isLoading: isPending || isConfirming,
+    isLoading: isUpdating || isPending || isConfirming,
     isConfirmed,
     hash,
     error: error as ContractError | null,

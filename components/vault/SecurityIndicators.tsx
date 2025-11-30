@@ -286,7 +286,7 @@ export function SecurityIndicators({ summary, isOwner }: SecurityIndicatorsProps
                     <Copy className="w-3 h-3" />
                   </button>
                   <button
-                    onClick={() => window.open(`https://etherscan.io/address/${summary.vault}`, '_blank')}
+                    onClick={() => window.open(`https://sepolia-blockscout.lisk.com/address/${summary.vault}`, '_blank')}
                     className="text-xs text-soul-red hover:text-soul-red/80 transition-colors"
                   >
                     <ExternalLink className="w-3 h-3" />

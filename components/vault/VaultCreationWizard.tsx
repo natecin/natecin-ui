@@ -30,6 +30,7 @@ interface VaultCreationWizardProps {
   onSubmit: (data: CreateVaultData) => void;
   isLoading?: boolean;
   initialData?: Partial<CreateVaultData>;
+  transactionHash?: string;
 }
 
 interface CreateVaultData {
@@ -41,7 +42,7 @@ interface CreateVaultData {
   useMultipleHeirs: boolean;
 }
 
-export function VaultCreationWizard({ onSubmit, isLoading, initialData }: VaultCreationWizardProps) {
+export function VaultCreationWizard({ onSubmit, isLoading, initialData, transactionHash }: VaultCreationWizardProps) {
   const connection = useConnection();
   const address = connection.address;
   
@@ -520,11 +521,16 @@ export function VaultCreationWizard({ onSubmit, isLoading, initialData }: VaultC
             {currentStep === steps.length - 1 ? (
               <>
                 {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    {transactionHash ? 'Confirming...' : 'Waiting for approval...'}
+                  </>
                 ) : (
-                  <CheckCircle className="w-4 h-4" />
+                  <>
+                    <CheckCircle className="w-4 h-4" />
+                    Create Vault
+                  </>
                 )}
-                Create Vault
               </>
             ) : (
               <>

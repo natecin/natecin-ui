@@ -50,7 +50,7 @@ export function VaultCardEnhanced({
   const address = connection.address;
   const { summary, isLoading, error } = useVaultSummary(vaultAddress);
   const { canDistribute } = useCanDistribute(vaultAddress);
-  const { deposit, isLoading: isDepositing } = useDepositETH();
+  const { deposit, isLoading: isDepositing, isConfirmed } = useDepositETH();
   const { updateActivity, isLoading: isUpdating } = useUpdateActivity();
   const particlesRef = useRef<HTMLCanvasElement>(null);
   const heartbeatRef = useRef<HTMLCanvasElement>(null);
@@ -264,22 +264,36 @@ export function VaultCardEnhanced({
   const handleDeposit = async () => {
     try {
       await deposit(vaultAddress, depositAmount);
-      setShowDepositForm(false);
-      setDepositAmount("0.1");
-      onDeposit?.(vaultAddress);
+      // Success will be handled by useEffect hook when isConfirmed becomes true
     } catch (err) {
       console.error("Deposit failed:", err);
     }
   };
 
+  // Monitor transaction confirmation
+  React.useEffect(() => {
+    if (isConfirmed) {
+      setShowDepositForm(false);
+      setDepositAmount("0.1");
+      onDeposit?.(vaultAddress);
+    }
+  }, [isConfirmed, onDeposit, vaultAddress]);
+
   const handleUpdateActivity = async () => {
     try {
       await updateActivity(vaultAddress);
-      onUpdate?.(vaultAddress);
+      // Success will be handled by useEffect hook when isConfirmed becomes true
     } catch (err) {
       console.error("Update activity failed:", err);
     }
   };
+
+  // Monitor transaction confirmation
+  React.useEffect(() => {
+    if (isConfirmed) {
+      onUpdate?.(vaultAddress);
+    }
+  }, [isConfirmed, onUpdate, vaultAddress]);
 
   const handleDistribute = async () => {
     onDistribute?.(vaultAddress);

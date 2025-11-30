@@ -4,8 +4,8 @@ import REGISTRY_ABI from '../abi/VaultRegistry.json';
 
 // Contract addresses - Deployed on Lisk Sepolia
 export const CONTRACT_ADDRESSES = {
-  factory: "0xdD0892634DA8aade4621d1d91A50552028E80D8F", // NatecinFactory
-  registry: "0xdD154C99638e7DDEe610E4b54a154cAf7B15FFCE", // VaultRegistry
+  factory: "0x51867CD91019917476616F35125e72F4b7C0f160", // NatecinFactory
+  registry: "0xaB0401D34217856ba7d0f6E2CAD5Fc36A2756e6f", // VaultRegistry
 } as const;
 
 export const ABIS = {

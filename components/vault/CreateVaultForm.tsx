@@ -19,12 +19,13 @@ export function CreateVaultForm({ onSuccess, onError }: CreateVaultFormProps) {
   const [mounted, setMounted] = useState(false);
   const connection = useConnection();
   const address = connection.address;
+  const [transactionInitiated, setTransactionInitiated] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
   
-  const { createVault, isLoading, isConfirmed, error } = useCreateVault();
+  const { createVault, isLoading, isConfirmed, error, hash } = useCreateVault();
   
   const handleWizardSubmit = async (wizardData: any): Promise<void> => {
     if (!address) {
@@ -33,6 +34,7 @@ export function CreateVaultForm({ onSuccess, onError }: CreateVaultFormProps) {
     }
 
     try {
+      setTransactionInitiated(true);
       const params: CreateVaultParams = {
         heirs: wizardData.heirs,
         inactivityPeriod: wizardData.inactivityPeriod,
@@ -42,8 +44,9 @@ export function CreateVaultForm({ onSuccess, onError }: CreateVaultFormProps) {
       };
 
       await createVault(params);
-      onSuccess?.('Vault creation initiated');
+      // Success will be handled by the useEffect hook when isConfirmed becomes true
     } catch (err) {
+      setTransactionInitiated(false);
       onError?.(err as Error);
     }
   };
@@ -51,11 +54,16 @@ export function CreateVaultForm({ onSuccess, onError }: CreateVaultFormProps) {
   React.useEffect(() => {
     if (isConfirmed) {
       onSuccess?.('Vault created successfully!');
+      setTransactionInitiated(false);
     }
+  }, [isConfirmed, onSuccess]);
+
+  React.useEffect(() => {
     if (error) {
       onError?.(new Error(error.message));
+      setTransactionInitiated(false);
     }
-  }, [isConfirmed, error, onSuccess, onError]);
+  }, [error, onError]);
 
   if (!mounted) {
     return (
@@ -86,7 +94,8 @@ export function CreateVaultForm({ onSuccess, onError }: CreateVaultFormProps) {
   return (
       <VaultCreationWizard
         onSubmit={handleWizardSubmit}
-        isLoading={isLoading}
+        isLoading={isLoading || transactionInitiated}
+        transactionHash={hash || undefined}
       />
   );
 }

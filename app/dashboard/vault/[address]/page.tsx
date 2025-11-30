@@ -24,7 +24,6 @@ import { BeneficiaryManager } from '@/components/vault/BeneficiaryManager';
 import { ActionCenter } from '@/components/vault/ActionCenter';
 import { SecurityIndicators } from '@/components/vault/SecurityIndicators';
 import { DataExportSharing } from '@/components/vault/DataExportSharing';
-import { VaultPersonalization } from '@/components/vault/VaultPersonalization';
 
 export default function VaultDetailPage({ params }: { params: Promise<{ address: string }> }) {
   const resolvedParams = use(params);
@@ -33,7 +32,7 @@ export default function VaultDetailPage({ params }: { params: Promise<{ address:
   const connection = useConnection();
   const address = connection.address;
   const { summary, isLoading, error, refetch } = useVaultSummary(resolvedParams.address as `0x${string}`);
-  const { updateActivity, isLoading: isUpdatingActivity } = useUpdateActivity();
+  const { updateActivity, isLoading: isUpdatingActivity, isConfirmed } = useUpdateActivity();
   const [notification, setNotification] = useState<{
     type: 'success' | 'error';
     message: string;
@@ -56,12 +55,19 @@ export default function VaultDetailPage({ params }: { params: Promise<{ address:
   const handleImAlive = async () => {
     try {
       await updateActivity(resolvedParams.address as `0x${string}`);
-      showNotification('success', 'Activity updated successfully');
-      refetch();
+      // Success notification and refetch will be handled by useEffect
     } catch (error) {
       showNotification('error', `Failed to update activity: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
+
+  // Monitor transaction confirmation
+  React.useEffect(() => {
+    if (isConfirmed) {
+      showNotification('success', 'Activity updated successfully');
+      refetch();
+    }
+  }, [isConfirmed]);
 
   const isOwner = address && summary?.owner?.toLowerCase() === address.toLowerCase();
 
@@ -277,11 +283,6 @@ export default function VaultDetailPage({ params }: { params: Promise<{ address:
             {/* Asset Portfolio */}
             <AssetPortfolio summary={summary} />
             
-            <VaultPersonalization 
-              summary={summary}
-              isOwner={isOwner}
-            />
-            
             <DataExportSharing 
               summary={summary}
               isOwner={isOwner}
@@ -300,46 +301,14 @@ export default function VaultDetailPage({ params }: { params: Promise<{ address:
             <BeneficiaryManager 
               summary={summary}
               isOwner={isOwner}
-              onEditBeneficiary={() => router.push(`/dashboard/vault/${resolvedParams.address}/edit`)}
+              onEditBeneficiary={() => {/* Edit is now handled inline */}}
+              onRefetch={refetch}
             />
             
             <SecurityIndicators 
               summary={summary}
               isOwner={isOwner}
             />
-
-            {/* Contract Info */}
-            <Card className="border border-white/20">
-              <div className="p-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <ShieldCheck className="w-4 h-4 text-soul-red" />
-                  <h3 className="text-sm font-family-heading text-ghost-white">
-                    Contract Information
-                  </h3>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-silver-dust">Owner</span>
-                    <span className="text-sm text-ghost-white font-family-heading">
-                      {shortenAddress(summary.owner)}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-silver-dust">Inactivity</span>
-                    <span className="text-sm text-ghost-white font-family-heading">
-                      {(Number(summary.inactivityPeriod) / 86400).toFixed(1)} days
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-silver-dust">Security</span>
-                    <span className="text-sm text-emerald-400">Audited</span>
-                  </div>
-                </div>
-              </div>
-            </Card>
           </div>
         </div>
       </div>

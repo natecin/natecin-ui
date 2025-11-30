@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/Button';
 import { Heart, Plus, Wallet, Clock, TrendingUp } from 'lucide-react';
@@ -60,20 +60,20 @@ export default function Dashboard() {
     executed: 'bg-gray-500',
   };
 
-  const showNotification = (type: 'success' | 'error', message: string) => {
+  const showNotification = useCallback((type: 'success' | 'error', message: string) => {
     setNotification({ type, message });
     setTimeout(() => setNotification(null), 5000);
-  };
+  }, []);
 
-  const handleCreateSuccess = (message: string) => {
+  const handleCreateSuccess = useCallback((message: string) => {
     showNotification('success', message);
     setShowCreateForm(false);
     refetch();
-  };
+  }, [showNotification, refetch]);
 
-  const handleCreateError = (error: Error) => {
+  const handleCreateError = useCallback((error: Error) => {
     showNotification('error', error.message);
-  };
+  }, [showNotification]);
 
   if (!mounted) {
     return (

@@ -46,10 +46,8 @@ export async function calculateCreationFees(
 export function validateCreateVaultParams(params: CreateVaultParams): string[] {
   const errors: string[] = [];
 
-  // Validate heir address
-  if (!params.heir || params.heir === '0x0000000000000000000000000000000000000000') {
-    errors.push('Heir address is required and cannot be zero address');
-  }
+  console.log(params);
+  
 
   // Validate inactivity period (minimum 1 hour, maximum 10 years)
   const minPeriod = 3600; // 1 hour
@@ -212,6 +210,14 @@ export function generateVaultDisplayName(
 export function shortenAddress(address: `0x${string}` | string | undefined, chars: number = 6): string {
   if (!address) return "NaN"
   return `${address?.slice(0, chars)}...${address?.slice(-chars)}`;
+}
+
+/**
+ * Validate Ethereum address format
+ */
+export function isValidAddress(address: string): boolean {
+  if (!address) return false;
+  return /^0x[a-fA-F0-9]{40}$/.test(address);
 }
 
 /**

@@ -26,7 +26,7 @@ export function AssetDeposit({ vaultAddress, onDeposit }: AssetDepositProps) {
   const connection = useConnection();
   const address = connection.address;
   const { vaults } = useVaultsByOwner(address);
-  const { deposit, isLoading: isDepositingETH } = useDepositETH();
+  const { deposit, isLoading: isDepositingETH, isConfirmed } = useDepositETH();
   const { deposit: depositNFT, isLoading: isDepositingNFT } = useDepositERC721();
 
   const { data: ethBalanceData, isLoading: isLoadingEthBalance } = useBalance({
@@ -61,13 +61,20 @@ export function AssetDeposit({ vaultAddress, onDeposit }: AssetDepositProps) {
 
     try {
       await deposit(selectedVault as `0x${string}`, amount);
-      showNotification('success', `Deposited ${amount} ETH to vault`);
-      setAmount('');
-      onDeposit?.(amount, 'ETH');
+      // Success notification will be handled by useEffect when isConfirmed becomes true
     } catch (error) {
       showNotification('error', `Deposit failed: ${(error as Error).message}`);
     }
   };
+
+  // Monitor transaction confirmation
+  React.useEffect(() => {
+    if (isConfirmed) {
+      showNotification('success', `Deposited ${amount} ETH to vault`);
+      setAmount('');
+      onDeposit?.(amount, 'ETH');
+    }
+  }, [isConfirmed, amount, selectedVault, showNotification, onDeposit]);
 
   const calculatedUSD = parseFloat(amount || '0') * usdConversion;
 
